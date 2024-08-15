@@ -1,0 +1,36 @@
+.tab-group{
+  display: ;
+  justify-content: center;
+}
+.tab{
+  flex: 1 1 100px; /* タブの最小幅 */
+  padding: 15px; /* パディングを調整 */
+  list-style: none;
+  border: solid 1px #66a3ff; /* 薄い青色 */
+  text-align: center;
+  cursor: pointer;
+  background-color: #cce0ff; /* 淡い青色 */
+  color: #003366; /* 濃い青色 */
+  font-size: 18px; /* タブの文字サイズ */
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  box-sizing: border-box; /* パディングとボーダーを含む幅 */
+  border-radius: 10px; /* タブの角を丸くする */
+  margin: 5px; /* タブ間のスペースを追加 */
+}
+.panel-group{
+  height:100px;
+  border:solid 1px #CCC;
+  border-top:none;
+  background:#eee;
+}
+.panel{
+  display:none;
+}
+.tab.is-active{
+  background:#F00;
+  color:#FFF;
+  transition: all 0.2s ease-out;
+}
+.panel.is-show{
+  display:block;
+}

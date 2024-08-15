@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>App開発２</title>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css'>
+<link rel='stylesheet' href='https://unpkg.com/@mdi/font@6.x/css/materialdesignicons.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!-- Vueで指定された"app"要素、この中でのみVueが有効 -->
+<div id="app">
+  <v-app>
+    <v-content>
+      <v-container>
+        <v-row
+          class="text-h3 mb-3 mt-3"
+          justify="center"
+          >
+          TODAY's fashion
+        </v-row>
+         <!--タブ-->
+  <ul class="tab-group">
+    <li class="tab tab-A is-active">0℃以下</li>
+      <li class="tab tab-B">0~5℃</li>
+      <li class="tab tab-C">5~10℃</li>
+      <li class="tab tab-D">10~15℃</li>
+      <li class="tab tab-E">15~20℃</li>
+      <li class="tab tab-F">20~25℃</li>
+      <li class="tab tab-G">25~30℃</li>
+      <li class="tab tab-H">30~35℃</li>
+      <li class="tab tab-I">35℃以上</li>  
+   </ul>
+	
+  <!--タブを切り替えて表示するコンテンツ-->
+  <div class="panel-group">
+	  <div class="panel tab-A is-show">Content-A</div>
+	  <div class="panel tab-B">Content-B</div>
+	  <div class="panel tab-C">Content-C</div>
+  </div>
+        
+        
+        <v-row
+          class="mb-3 mt-3"
+          align="center"
+          justify="center"
+          >
+          <v-col 
+            cols="4"            
+            >
+             <select id="temp-A" v-model:value="temperature" class="temperature">
+          <!-- 気温のオプション -->
+          <option value="">気温選択して</option>
+           <option value="-6℃以下">-6℃以下</option>
+          <option value="-5">-5℃</option>
+          <option value="-4">-4℃</option>
+          <option value="-3">-3℃</option>
+          <option value="-2">-2℃</option>
+          <option value="-1">-1℃</option>
+          <option value="0">0℃</option>
+          <option value="0">0℃</option>
+          <option value="1">1℃</option>
+          <option value="2">2℃</option>
+          <option value="3">3℃</option>
+          <option value="4">4℃</option>
+          <option value="5">5℃</option>
+          <option value="6">6℃</option>
+          <option value="7">7℃</option>
+          <option value="8">8℃</option>
+          <option value="9">9℃</option>
+          <option value="10">10℃</option>
+          <option value="11">11℃</option>
+          <option value="12">12℃</option>
+          <option value="13">13℃</option>
+          <option value="14">14℃</option>
+          <option value="15">15℃</option>     
+           <option value="15">15℃</option>
+          <option value="16">16℃</option>
+          <option value="17">17℃</option>
+          <option value="18">18℃</option>
+          <option value="19">19℃</option>
+          <option value="20">20℃</option>     
+           <option value="21">21℃</option>
+          <option value="22">22℃</option>
+          <option value="23">23℃</option>
+          <option value="24">24℃</option>
+          <option value="25">25℃</option>
+          <option value="26">26℃</option>
+          <option value="27">27℃</option>
+          <option value="28">28℃</option>
+          <option value="29">29℃</option>
+          <option value="30">30℃</option>
+          <option value="31">31℃</option>
+          <option value="32">32℃</option>
+          <option value="33">33℃</option>
+          <option value="34">34℃</option>
+          <option value="35">35℃</option>
+           <option value="35">35℃</option>
+          <option value="36">36℃</option>
+          <option value="37">37℃</option>
+          <option value="38">38℃</option>
+          <option value="39">39℃</option>
+          <option value="40">40℃</option>
+          <option value="41">41℃以上</option>     
+        </select>
+            
+          </v-col>
+            <v-col 
+            cols="6"            
+            >
+            <v-text-field
+                  class="ml-6 mr-6"
+                  v-model:value="dress"                         
+                  label="今日の服装を入力"
+                  placeholder="今日の服装を入力…"
+                  outlined
+            >
+          </v-col>
+        </v-row>
+        <v-row
+          class="mb-3 mt-3"
+          align="center"
+          justify="center"
+          >
+          入力内容　気温→ {{ temperature }} 今日の服→ {{ dress }}
+          <v-btn v-on:click="addData"               
+               dark
+               small               
+               color="indigo"
+               >保存
+               </v-btn>
+        </v-row>
+        <v-row
+          class="mb-3 mt-3"
+          justify="center"
+          > 
+          <v-btn v-on:click="readData"                 
+                 rounded
+                 >一覧を表示する</v-btn>
+        </v-row>
+        <v-row 
+          class="mb-3 mt-3"
+          justify="center"
+          v-for="data in dataList">
+          temperature:{{ data.temperature }}, dress:{{ data.dress }}
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
