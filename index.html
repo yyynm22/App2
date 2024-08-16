@@ -133,7 +133,7 @@
                 <!-- 新しいテキストボックスを追加 -->
                 <v-text-field
                   class="ml-6 mr-6"
-                  v-model="dressimg"
+                  v-model="dressURL"
                   label="写真のURL"
                   placeholder="写真URLの入力…"
                   outlined>
@@ -148,7 +148,7 @@
           align="center"
           justify="center"
           >
-          入力内容確認　→　お気に入りマーク: {{mark}}　気温: {{ temperature }} 　季節:{{season}} 　ファッションポイント: {{ dress }}　　写真:{{ dressimg }}
+          入力内容確認　→　お気に入り: {{mark}}　気温: {{ temperature }} 　季節:{{season}} 　ファッションポイント: {{ dress }}　　写真:{{ dressURL }}
           <v-btn v-on:click="addData"               
                dark
                big              
@@ -184,7 +184,8 @@
           justify="center"
           v-for="data in dataList">
           
-          お気に入りマーク:{{data.mark}},　気温:{{ data.temperature }}, 季節:{{data.season}},服装:{{ data.dress }},写真URL{{ data.dressimg }}
+          お気に入り:{{data.mark}},　気温:{{ data.temperature }}, 季節:{{data.season}},　服装:{{ data.dress }}
+            <img height=200 width=200 v-bind:src="data.Imageurl">
         </v-row>
       </v-container>
     </v-content>

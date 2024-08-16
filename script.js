@@ -6,7 +6,7 @@ const app = new Vue({
     temperature: '', // パラメーター「temperature」格納変数
     season: '', // パラメータ「season」格納変数
     dress: '', // パラメーター「dress」格納変数
-    dressimg: '', // パラメータ「dressimg」格納変数
+    dressURL: '', // パラメータ「dressimg」格納変数
     mark: '',//パラメータ「mark」格納変数
     
     dataList: [], // データ表示用配列
@@ -25,7 +25,7 @@ const app = new Vue({
         temperature : this.temperature,
         season: this.season,
         dress : this.dress,
-        dressimg: this.dressimg,
+        dressURL: this.dressURL,
         mark:this.mark,
       };
       
@@ -39,7 +39,7 @@ const app = new Vue({
       this.temperature = '';
       this.season = '';
       this.dress = '';
-      this.dressimg = '';
+      this.dressURL = '';
       this.mark = '';
     },
     
