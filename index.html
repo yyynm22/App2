@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>App開発２</title>
+  <title>CodePen - App開発２</title>
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css'>
 <link rel='stylesheet' href='https://unpkg.com/@mdi/font@6.x/css/materialdesignicons.min.css'>
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'><link rel="stylesheet" href="./style.css">
@@ -23,26 +23,15 @@
         </v-row>
          <!--タブ-->
   <ul class="tab-group">
-    <li class="tab tab-A is-active">0℃以下</li>
-      <li class="tab tab-B">0~5℃</li>
-      <li class="tab tab-C">5~10℃</li>
-      <li class="tab tab-D">10~15℃</li>
-      <li class="tab tab-E">15~20℃</li>
-      <li class="tab tab-F">20~25℃</li>
-      <li class="tab tab-G">25~30℃</li>
-      <li class="tab tab-H">30~35℃</li>
-      <li class="tab tab-I">35℃以上</li>  
+    <li class="tab tab-A is-active">ファッションの登録</li>
+      <li class="tab tab-B">過去のファッションを見てみよう</li>
+      
    </ul>
 	
   <!--タブを切り替えて表示するコンテンツ-->
   <div class="panel-group">
-	  <div class="panel tab-A is-show">Content-A</div>
-	  <div class="panel tab-B">Content-B</div>
-	  <div class="panel tab-C">Content-C</div>
-  </div>
-        
-        
-        <v-row
+	  <div class="panel tab-A is-show">
+	      <v-row
           class="mb-3 mt-3"
           align="center"
           justify="center"
@@ -52,8 +41,9 @@
             >
              <select id="temp-A" v-model:value="temperature" class="temperature">
           <!-- 気温のオプション -->
-          <option value="">気温選択して</option>
-           <option value="-6℃以下">-6℃以下</option>
+          <option value="">気温を選択してね</option>
+         
+          <option value="-6℃以下">-6℃以下</option>
           <option value="-5">-5℃</option>
           <option value="-4">-4℃</option>
           <option value="-3">-3℃</option>
@@ -106,45 +96,95 @@
           <option value="41">41℃以上</option>     
         </select>
             
+            
+        <select id="temp-B" v-model:value="season" class="season">
+          <!-- 気温のオプション -->
+           <option value="">季節を選択してね</option>
+          
+          <option value="春">春</option>
+           <option value="夏">夏</option>
+           <option value="秋">秋</option>
+           <option value="冬">冬</option>
+           </select>
+            
+          <select id="temp-B" v-model:value="mark" class="mark">
+          <!-- 気温のオプション -->
+           <option value="">お気に入り登録</option>
+          
+          <option value="☆">☆</option>
+           <option value="♡">♡</option>
+           <option value="🌞">🌞</option>
+           <option value="☔">☔</option>
+           <option value="☁">☁</option>
+           </select>
+            
           </v-col>
-            <v-col 
-            cols="6"            
-            >
-            <v-text-field
+          
+          
+          <v-col cols="6">
+                <v-text-field
                   class="ml-6 mr-6"
-                  v-model:value="dress"                         
-                  label="今日の服装を入力"
-                  placeholder="今日の服装を入力…"
-                  outlined
-            >
-          </v-col>
-        </v-row>
+                  v-model="dress"
+                  label="今日の服装ポイントを入力"
+                  placeholder="今日の服装ポイントを入力…"
+                  outlined>
+                </v-text-field>
+
+                <!-- 新しいテキストボックスを追加 -->
+                <v-text-field
+                  class="ml-6 mr-6"
+                  v-model="dressimg"
+                  label="写真のURL"
+                  placeholder="写真URLの入力…"
+                  outlined>
+                </v-text-field>
+              </v-col>
+            </v-row>
+      
+            
+              
         <v-row
           class="mb-3 mt-3"
           align="center"
           justify="center"
           >
-          入力内容　気温→ {{ temperature }} 今日の服→ {{ dress }}
+          入力内容確認　→　お気に入りマーク: {{mark}}　気温: {{ temperature }} 　季節:{{season}} 　ファッションポイント: {{ dress }}　　写真:{{ dressimg }}
           <v-btn v-on:click="addData"               
                dark
-               small               
-               color="indigo"
+               big              
+               color="blue"
                >保存
                </v-btn>
         </v-row>
+      
         <v-row
+          class="mb-3 mt-3"
+          justify="center"
+          > 
+	  </div>
+              
+              
+	  <div class="panel tab-B"><v-row
           class="mb-3 mt-3"
           justify="center"
           > 
           <v-btn v-on:click="readData"                 
                  rounded
-                 >一覧を表示する</v-btn>
+                 >一覧を表示する</v-btn></div>
+	
+  </div>
+        
+        
+      
+        
         </v-row>
         <v-row 
           class="mb-3 mt-3"
+          align="center"
           justify="center"
           v-for="data in dataList">
-          temperature:{{ data.temperature }}, dress:{{ data.dress }}
+          
+          お気に入りマーク:{{data.mark}},　気温:{{ data.temperature }}, 季節:{{data.season}},服装:{{ data.dress }},写真URL{{ data.dressimg }}
         </v-row>
       </v-container>
     </v-content>
