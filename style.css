@@ -85,18 +85,3 @@ select.mark {
 select.mark:hover {
     border-color: #888; /* ホバー時の枠線の色を変更 */
 }
-
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3列の設定 */
-    gap: 10px;
-    padding: 10px;
-}
-
-.grid-item {
-    background-color: #f0f0f0;
-    padding: 10px;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}

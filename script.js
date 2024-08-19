@@ -1,16 +1,16 @@
 const app = new Vue({
   el: '#app', // Vueが管理する一番外側のDOM要素
   vuetify: new Vuetify(),
-    data: {
-        temperature: '',
-        season: '',
-        dress: '',
-        dressURL: '',
-        mark: '',
-        dataList: [], // データ表示用配列
-        showImages: false // 画像表示のフラグを追加
-    },
-
+  data: {
+    // Vue内部で使いたい変数は全てこの中に定義する
+    temperature: '', // パラメーター「temperature」格納変数
+    season: '', // パラメータ「season」格納変数
+    dress: '', // パラメーター「dress」格納変数
+    dressURL: '', // パラメータ「dressimg」格納変数
+    mark: '',//パラメータ「mark」格納変数
+    
+    dataList: [], // データ表示用配列
+  },
   methods: {
     // DBにデータを追加する関数
     addData: async function() {
@@ -44,20 +44,16 @@ const app = new Vue({
     },
     
     // データベースからデータを取得する関数
-      readData: async function () {
-          // SELECT用のAPIを呼び出し      
-          const response = await axios.get('https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT');
-
-          // 結果をコンソールに出力
-          console.log(response.data);
-
-          // 結果リストを表示用配列に代入
-          this.dataList = response.data.List;
-
-          // 画像表示を有効にする
-          this.showImages = true;
-      },
-
+    readData: async function() {
+      // SELECT用のAPIを呼び出し      
+      const response = await axios.get('https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT');
+      
+      // 結果をコンソールに出力
+      console.log(response.data);
+      
+      // 結果リストを表示用配列に代入
+      this.dataList = response.data.List;
+    },
   },
 });
 
