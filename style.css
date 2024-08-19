@@ -1,87 +1,128 @@
-.tab-group{
-  display:flex;
-  justify-content: center;
-}
-.tab{
-  flex: 1 1 100px; /* タブの最小幅 */
-  padding: 15px; /* パディングを調整 */
-  list-style: none;
-  border: solid 1px #66a3ff; /* 薄い青色 */
-  text-align: center;
-  cursor: pointer;
-  background-color: #cce0ff; /* 淡い青色 */
-  color: #003366; /* 濃い青色 */
-  font-size: 18px; /* タブの文字サイズ */
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-  box-sizing: border-box; /* パディングとボーダーを含む幅 */
-  border-radius: 10px; /* タブの角を丸くする */
-  margin: 5px; /* タブ間のスペースを追加 */
-}
-.panel-group{
-  height:100%;
-  border: solid 1px #66a3ff; /* 薄い青色 */
-  border-top:none;
-  background: #cce0ff; /* 淡い青色 */
-}
-.panel{
-  display:none;
-}
-.tab.is-active{
-  background:blue;
-  color:#FFF;
-  transition: all 0.2s ease-out;
-}
-.panel.is-show{
-  display:block;
+/* 全体の背景色とフォント設定 */
+body {
+    background-color: #fce4ec; /* 淡いピンク */
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
-/* 四角い枠のスタイルをセレクトボックスに適用 */
-select.temperature {
-    padding: 10px; /* 内側の余白を設定 */
-    border: 1px solid gray; /* 枠線の太さと色を設定 */
-    border-radius: 4px; /* 角の丸みを設定 */
-    font-size: 16px; /* フォントサイズを設定 */
-  color:gray;
-    width: 150px; /* セレクトボックスの幅を設定 */
-    box-sizing: border-box; /* パディングを含む全体の幅を設定 */
-    margin: 5px; /* タブ間のスペースを追加 */
+/* タブグループのスタイル */
+.tab-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-/* 必要に応じて、マウスホバー時のスタイルも設定できます */
-select.temperature:hover {
-    border-color: gray; /* ホバー時の枠線の色を変更 */
+.tab {
+    flex: 1;
+    padding: 15px;
+    list-style: none;
+    border: solid 1px #ff80ab; /* ピンク色 */
+    text-align: center;
+    cursor: pointer;
+    background-color: #f8bbd0; /* 淡いピンク */
+    color: #d81b60; /* ピンク色 */
+    font-size: 18px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    border-radius: 15px;
+    margin: 5px;
 }
 
+    .tab.is-active {
+        background-color: #d81b60; /* ピンク色 */
+        color: #fff;
+        transform: scale(1.05); /* ホバー時に拡大 */
+    }
 
-/* 四角い枠のスタイルをセレクトボックスに適用 */
-select.season {
-    padding: 10px; /* 内側の余白を設定 */
-    border: 1px solid gray; /* 枠線の太さと色を設定 */
-    border-radius: 4px; /* 角の丸みを設定 */
-    font-size: 16px; /* フォントサイズを設定 */
-    color:gray;
-    width: 150px; /* セレクトボックスの幅を設定 */
-    box-sizing: border-box; /* パディングを含む全体の幅を設定 */
-    margin: 5px; /* タブ間のスペースを追加 */
+.panel-group {
+    border: solid 1px #ff80ab; /* 薄いピンク */
+    border-top: none;
+    background: #f8bbd0; /* 淡いピンク */
 }
 
-/* 必要に応じて、マウスホバー時のスタイルも設定できます */
-select.season:hover {
-    border-color: #888; /* ホバー時の枠線の色を変更 */
-}
-/* 四角い枠のスタイルをセレクトボックスに適用 */
-select.mark {
-    padding: 10px; /* 内側の余白を設定 */
-    border: 1px solid gray; /* 枠線の太さと色を設定 */
-    border-radius: 4px; /* 角の丸みを設定 */
-    font-size: 16px; /* フォントサイズを設定 */
-    color:gray;
-    width: 150px; /* セレクトボックスの幅を設定 */
-    box-sizing: border-box; /* パディングを含む全体の幅を設定 */
-    margin: 5px; /* タブ間のスペースを追加 */
+.panel {
+    display: none;
 }
 
-/* 必要に応じて、マウスホバー時のスタイルも設定できます */
-select.mark:hover {
-    border-color: #888; /* ホバー時の枠線の色を変更 */
+    .panel.is-show {
+        display: block;
+    }
+
+/* セレクトボックスのスタイル */
+select {
+    padding: 10px;
+    border: 1px solid #ff80ab; /* ピンク色 */
+    border-radius: 4px;
+    font-size: 16px;
+    color: #d81b60; /* ピンク色 */
+    width: 150px;
+    box-sizing: border-box;
+    margin: 5px;
+    background-color: #fff;
+}
+
+    select:hover {
+        border-color: #d81b60; /* ホバー時にピンク色に */
+    }
+
+/* テキストフィールドのスタイル */
+.v-text-field {
+    margin: 10px 0;
+}
+
+.v-btn {
+    margin: 10px;
+    font-size: 16px;
+}
+
+    .v-btn:hover {
+        background-color: #c2185b; /* ホバー時に少し濃いピンク色 */
+    }
+
+/* データリストアイテムのスタイル */
+.v-row {
+    margin: 20px 0;
+}
+
+img {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+}
+
+/* Fashion List Styles */
+.fashion-list {
+    margin: 0;
+    padding: 0;
+}
+
+.v-card {
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.3s ease-in-out;
+}
+
+    .v-card:hover {
+        transform: scale(1.05); /* Slight zoom on hover */
+    }
+
+.v-card-title {
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.v-card-subtitle {
+    color: #555;
+}
+
+.v-card-text {
+    font-size: 14px;
+    color: #333;
+}
+
+.v-card-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -1,80 +1,66 @@
 const app = new Vue({
-  el: '#app', // Vueが管理する一番外側のDOM要素
-  vuetify: new Vuetify(),
-  data: {
-    // Vue内部で使いたい変数は全てこの中に定義する
-    temperature: '', // パラメーター「temperature」格納変数
-    season: '', // パラメータ「season」格納変数
-    dress: '', // パラメーター「dress」格納変数
-    dressURL: '', // パラメータ「dressimg」格納変数
-    mark: '',//パラメータ「mark」格納変数
-    
-    dataList: [], // データ表示用配列
-  },
-  methods: {
-    // DBにデータを追加する関数
-    addData: async function() {
-      // IDの入力チェック（空白か数字以外なら終了）
-      if(!this.temperature || isNaN(this.temperature)){
-        console.log("temperatureに数値が入力されていません");
-        return;
-      }
-      
-      // POSTメソッドで送るパラメーターを作成
-      const param = {
-        temperature : this.temperature,
-        season: this.season,
-        dress : this.dress,
-        dressURL: this.dressURL,
-        mark:this.mark,
-      };
-      
-      // INSERT用のAPIを呼び出し
-      const response = await axios.post('https://m3h-yuunaminagawa.azurewebsites.net/api/INSERT', param);
-      
-      // 結果をコンソールに出力
-      console.log(response.data);
-      
-      // 保存が完了したらフィールドをクリア
-      this.temperature = '';
-      this.season = '';
-      this.dress = '';
-      this.dressURL = '';
-      this.mark = '';
+    el: '#app',
+    vuetify: new Vuetify(),
+    data: {
+        temperature: '',
+        season: '',
+        dress: '',
+        dressURL: '',
+        mark: '',
+        dataList: [],
     },
-    
-    // データベースからデータを取得する関数
-      readData: async function () {
-          // SELECT用のAPIを呼び出し      
-          const response = await axios.get('https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT');
+    methods: {
+        addData: async function () {
+            if (!this.temperature || isNaN(this.temperature)) {
+                console.log("temperatureに数値が入力されていません");
+                return;
+            }
 
-          // 結果をコンソールに出力
-          console.log(response.data);
+            const param = {
+                temperature: this.temperature,
+                season: this.season,
+                dress: this.dress,
+                dressURL: this.dressURL,
+                mark: this.mark,
+            };
 
-          // 結果リストを表示用配列に代入
-          this.dataList = response.data.List.sort((a, b) => a.temperature - b.temperature);
-      },
+            try {
+                const response = await axios.post('https://m3h-yuunaminagawa.azurewebsites.net/api/INSERT', param);
+                console.log(response.data);
+                this.temperature = '';
+                this.season = '';
+                this.dress = '';
+                this.dressURL = '';
+                this.mark = '';
+            } catch (error) {
+                console.error("データの追加に失敗しました:", error);
+            }
+        },
 
-  },
+        readData: async function () {
+            try {
+                const response = await axios.get('https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT');
+                console.log(response.data);
+                this.dataList = response.data.List.sort((a, b) => a.temperature - b.temperature);
+            } catch (error) {
+                console.error("データの取得に失敗しました:", error);
+            }
+        },
+    },
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-  // タブに対してクリックイベントを適用
-  const tabs = document.getElementsByClassName('tab');
-  for(let i = 0; i < tabs.length; i++) {
-    tabs[i].addEventListener('click', tabSwitch, false);
-  }
+document.addEventListener('DOMContentLoaded', function () {
+    const tabs = document.getElementsByClassName('tab');
+    for (let i = 0; i < tabs.length; i++) {
+        tabs[i].addEventListener('click', tabSwitch, false);
+    }
 
-  // タブをクリックすると実行する関数
-  function tabSwitch() {
-    // タブのclassの値を変更
-    document.getElementsByClassName('is-active')[0].classList.remove('is-active');
-    this.classList.add('is-active');
-    
-    // コンテンツのclassの値を変更
-    document.getElementsByClassName('is-show')[0].classList.remove('is-show');
-    const arrayTabs = Array.prototype.slice.call(tabs);
-    const index = arrayTabs.indexOf(this);
-    document.getElementsByClassName('panel')[index].classList.add('is-show');
-  };
+    function tabSwitch() {
+        document.getElementsByClassName('is-active')[0].classList.remove('is-active');
+        this.classList.add('is-active');
+        document.getElementsByClassName('is-show')[0].classList.remove('is-show');
+        const arrayTabs = Array.prototype.slice.call(tabs);
+        const index = arrayTabs.indexOf(this);
+        document.getElementsByClassName('panel')[index].classList.add('is-show');
+    };
 }, false);
