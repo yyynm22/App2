@@ -44,16 +44,17 @@ const app = new Vue({
     },
     
     // データベースからデータを取得する関数
-    readData: async function() {
-      // SELECT用のAPIを呼び出し      
-      const response = await axios.get('https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT');
-      
-      // 結果をコンソールに出力
-      console.log(response.data);
-      
-      // 結果リストを表示用配列に代入
-      this.dataList = response.data.List;
-    },
+      readData: async function () {
+          // SELECT用のAPIを呼び出し      
+          const response = await axios.get('https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT');
+
+          // 結果をコンソールに出力
+          console.log(response.data);
+
+          // 結果リストを表示用配列に代入
+          this.dataList = response.data.List.sort((a, b) => a.temperature - b.temperature);
+      },
+
   },
 });
 
