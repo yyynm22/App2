@@ -137,49 +137,42 @@
 
 
 
-          <v-row class="grid-container mb-3 mt-3"
-                 justify="center"
-                 v-for="data in dataList"
-                 :key="data.id">
-              <v-col class="grid-item">
-                  <div>お気に入りマーク: {{ data.mark }}</div>
-                  <div>気温: {{ data.temperature }}</div>
-                  <div>季節: {{ data.season }}</div>
-                  <div>服装: {{ data.dress }}</div>
-                  <img :src="data.dressimg" alt="ファッション画像" width="100%">
-              </v-col>
+          <v-row class="mb-3 mt-3"
+                 align="center"
+                 justify="center">
+              入力内容確認　→　お気に入り: {{mark}}　気温: {{ temperature }} 　季節:{{season}} 　ファッションポイント: {{ dress }}　　写真:{{ dressURL }}
+              <v-btn v-on:click="addData"
+                     dark
+                     big
+                     color="blue">
+                  保存
+              </v-btn>
           </v-row>
-
 
           <v-row class="mb-3 mt-3"
                  justify="center">
       </div>
-              
-              
-	  <div class="panel tab-B"><v-row
-          class="mb-3 mt-3"
-          justify="center"
-          > 
-          <v-btn v-on:click="readData"                 
-                 rounded
-                 >一覧を表示する</v-btn></div>
-	
-  </div>
-        
-        
-      
-        
-        </v-row>
-        <v-row 
-          class="mb-3 mt-3"
-          align="center"
-          justify="center"
-          v-for="data in dataList">
-          
-          お気に入り:{{data.mark}},　気温:{{ data.temperature }}, 季節:{{data.season}},　服装:{{ data.dress }}
-            <img height=200 width=200 v-bind:src="data.dressURL">
-        </v-row>
-      </v-container>
+
+
+      <div class="panel tab-B">
+          <v-row class="mb-3 mt-3" justify="center">
+              <v-btn v-on:click="readData" rounded>一覧を表示する</v-btn>
+          </v-row>
+
+          <div v-if="showImages">
+              <div class="grid-container">
+                  <div v-for="data in sortedDataList" :key="data.id" class="grid-item">
+                      <div>お気に入りマーク: {{ data.mark }}</div>
+                      <div>気温: {{ data.temperature }}</div>
+                      <div>季節: {{ data.season }}</div>
+                      <div>服装: {{ data.dress }}</div>
+                      <img :src="data.dressimg" alt="ファッション画像" width="100%">
+                  </div>
+              </div>
+          </div>
+      </div>
+
+</v-container>
     </v-content>
   </v-app>
 </div>
