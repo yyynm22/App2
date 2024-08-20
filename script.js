@@ -52,20 +52,16 @@ const app = new Vue({
             };
 
             try {
-                const response = await axios.post('https://m3h-yuunaminagawa.azurewebsites.net/api/DELETET', param);
+                const response = await axios.post('https://m3h-yuunaminagawa.azurewebsites.net/api/DELETE', param);
                 console.log(response.data);
-                data.temperature = '';
-                data.season = '';
-                data.dress = '';
-                data.dressURL = '';
-                data.mark = '';
+
+                // データ削除が成功した場合に、一覧から該当データを削除
+                this.dataList = this.dataList.filter(item => item.temperature !== data.temperature);
             } catch (error) {
-                console.error("データの追加に失敗しました:", error);
+                console.error("データの削除に失敗しました:", error);
             }
-          
-               
-         
         },
+
 
 
         readData: async function () {
