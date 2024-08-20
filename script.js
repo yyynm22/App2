@@ -38,7 +38,6 @@ const app = new Vue({
         },
 
         deleteData: async function () {
-            // temperatureの値を確認するためのデバッグ
             console.log("現在のtemperatureの値:", this.temperature);
 
             if (!this.temperature || isNaN(this.temperature)) {
@@ -66,6 +65,7 @@ const app = new Vue({
                 console.error("データの削除に失敗しました:", error);
             }
         },
+
 
 
 
