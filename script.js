@@ -60,13 +60,14 @@ const app = new Vue({
                 this.dressURL = '';
                 this.mark = '';
             } catch (error) {
-                console.error("データの削除に失敗しました:", error);
+                console.error("データの追加に失敗しました:", error);
             }
         },
 
+
         readData: async function () {
             try {
-                const response = await axios.get(https://m3h-yuunaminagawa.azurewebsites.nethttps://m3h-yuunaminagawa.azurewebsites.net/api/SELECT');
+                const response = await axios.get('https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT');
                 console.log(response.data);
                 this.dataList = response.data.List.sort((a, b) => a.temperature - b.temperature);
             } catch (error) {
