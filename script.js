@@ -2,6 +2,7 @@ const app = new Vue({
     el: '#app',
     vuetify: new Vuetify(),
     data: {
+        tab: 0,
         temperature: '',
         season: '',
         dress: '',
