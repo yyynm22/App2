@@ -38,13 +38,12 @@ const app = new Vue({
         },
 
         deleteData: async function (data) {
-            
-            if (!data.temperature) {
+            if (!this.temperature || isNaN(this.temperature)) {
                 console.log("temperatureに数値が入力されていません");
                 return;
             }
 
-            const params = {
+            const param = {
                 temperature: data.temperature,
                 season: data.season,
                 dress: data.dress,
@@ -52,13 +51,18 @@ const app = new Vue({
                 mark: data.mark,
             };
 
-            
-                const response = await axios.delete('https://m3h-yuunaminagawa.azurewebsites.net/api/DELETE', params);
+            try {
+                const response = await axios.post('https://m3h-yuunaminagawa.azurewebsites.net/api/DELETE', param);
                 console.log(response.data);
-                
+                data.temperature = '';
+                data.season = '';
+                data.dress = '';
+                data.dressURL = '';
+                data.mark = '';
+            } catch (error) {
+                console.error("データの削除に失敗しました:", error);
             }
         },
-
 
 
         readData: async function () {
