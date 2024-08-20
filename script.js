@@ -41,7 +41,7 @@ const app = new Vue({
             // temperatureの値を確認するためのデバッグ
             console.log("現在のtemperatureの値:", this.temperature);
 
-            if (!this.temperature || isNaN(this.temperature)) {
+            if (!this.temperature) {
                 console.log("temperatureに数値が入力されていません");
                 return;
             }
