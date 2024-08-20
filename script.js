@@ -52,7 +52,7 @@ const app = new Vue({
             };
 
             try {
-                const response = await axios.post('https://m3h-yuunaminagawa.azurewebsites.net/api/DELETE', param);
+                const response = await axios.delete('https://m3h-yuunaminagawa.azurewebsites.net/api/DELETE', param);
                 console.log(response.data);
                 this.temperature = '';
                 this.season = '';
@@ -60,7 +60,7 @@ const app = new Vue({
                 this.dressURL = '';
                 this.mark = '';
             } catch (error) {
-                console.error("データの追加に失敗しました:", error);
+                console.error("データの削除に失敗しました:", error);
             }
         },
 
