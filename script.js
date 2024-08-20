@@ -38,21 +38,24 @@ const app = new Vue({
         },
 
         deleteData: async function () {
+            // temperatureの値を確認するためのデバッグ
+            console.log("現在のtemperatureの値:", this.temperature);
+
             if (!this.temperature || isNaN(this.temperature)) {
                 console.log("temperatureに数値が入力されていません");
                 return;
             }
 
+            const params = {
+                temperature: this.temperature,
+                season: this.season,
+                dress: this.dress,
+                dressURL: this.dressURL,
+                mark: this.mark,
+            };
+
             try {
-                const response = await axios.delete(`https://m3h-yuunaminagawa.azurewebsites.net/api/DELETE`, {
-                    params: {
-                        temperature: this.temperature,
-                        season: this.season,
-                        dress: this.dress,
-                        dressURL: this.dressURL,
-                        mark: this.mark,
-                    },
-                });
+                const response = await axios.delete('https://m3h-yuunaminagawa.azurewebsites.net/api/DELETE', { data: params });
                 console.log(response.data);
                 this.temperature = '';
                 this.season = '';
@@ -63,6 +66,7 @@ const app = new Vue({
                 console.error("データの削除に失敗しました:", error);
             }
         },
+
 
 
         readData: async function () {
