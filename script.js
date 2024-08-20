@@ -43,16 +43,16 @@ const app = new Vue({
                 return;
             }
 
-            const param = {
-                temperature: this.temperature,
-                season: this.season,
-                dress: this.dress,
-                dressURL: this.dressURL,
-                mark: this.mark,
-            };
-
             try {
-                const response = await axios.delete('https://m3h-yuunaminagawa.azurewebsites.net/api/DELETE', param);
+                const response = await axios.delete(`https://m3h-yuunaminagawa.azurewebsites.net/api/DELETE`, {
+                    params: {
+                        temperature: this.temperature,
+                        season: this.season,
+                        dress: this.dress,
+                        dressURL: this.dressURL,
+                        mark: this.mark,
+                    },
+                });
                 console.log(response.data);
                 this.temperature = '';
                 this.season = '';
