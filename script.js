@@ -38,7 +38,7 @@ const app = new Vue({
         },
 
         deleteData: async function (data) {
-            if (!this.temperature) {
+            if (!data.temperature) {
                 console.log("temperatureに数値が入力されていません");
                 return;
             }
