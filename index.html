@@ -166,14 +166,31 @@
 
 
                     </v-row>
-                    <v-row class="mb-3 mt-3"
-                           align="center"
-                           justify="center"
-                           v-for="data in dataList">
 
-                        お気に入り:{{data.mark}},　気温:{{ data.temperature }}, 季節:{{data.season}},　服装:{{ data.dress }}
-                        <img height=200 width=200 v-bind:src="data.dressURL">
+                    <!-- Card Container for Fashion List -->
+                    <v-row class="fashion-list">
+                        <v-col v-for="data in dataList" :key="data.id" cols="12" sm="4" md="4">
+                            <v-card class="mx-auto my-3" max-width="344">
+                                <v-card-title>
+                                    <span class="headline">Favorite: {{data.mark}}</span>
+                                </v-card-title>
+                                <v-card-subtitle>
+                                    <span>Temperature: {{data.temperature}}</span><br>
+                                    <span>Season: {{data.season}}</span>
+                                </v-card-subtitle>
+                                <v-card-text>
+                                    <p>{{data.dress}}</p>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-img :src="data.dressURL" height="200" contain></v-img>
+                                </v-card-actions>
+                            </v-card>
+                        </v-col>
                     </v-row>
+
+
+
+
                 </v-container>
             </v-content>
         </v-app>
