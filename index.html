@@ -120,7 +120,7 @@
                             </v-row>
 
                             <v-row class="mb-3 mt-3" align="center" justify="center">
-                               
+                                Confirm Input → Favorite: {{mark}}, Temperature: {{temperature}}, Season: {{season}}, Fashion Details: {{dress}}, Photo: {{dressURL}}
                                 <v-btn v-on:click="addData" dark big color="blue">Save</v-btn>
                             </v-row>
                         </div>
@@ -132,27 +132,10 @@
                         </div>
                     </div>
 
-                    <!-- Card Container for Fashion List -->
-                    <v-row class="fashion-list">
-                        <v-col v-for="data in dataList" :key="data.id" cols="12" sm="4" md="4">
-                            <v-card class="mx-auto my-3" max-width="344">
-                                <v-card-title>
-                                    <span class="headline">Favorite: {{data.mark}}</span>
-                                </v-card-title>
-                                <v-card-subtitle>
-                                    <span>Temperature: {{data.temperature}}</span><br>
-                                    <span>Season: {{data.season}}</span>
-                                </v-card-subtitle>
-                                <v-card-text>
-                                    <p>{{data.dress}}</p>
-                                </v-card-text>
-                                <v-card-actions>
-                                    <v-img :src="data.dressURL" height="200" contain></v-img>
-                                </v-card-actions>
-                            </v-card>
-                        </v-col>
+                    <v-row class="mb-3 mt-3" align="center" justify="center" v-for="data in dataList">
+                        Favorite: {{data.mark}}, Temperature: {{data.temperature}}, Season: {{data.season}}, Fashion: {{data.dress}}
+                        <img height="200" width="200" v-bind:src="data.dressURL">
                     </v-row>
-
                 </v-container>
             </v-content>
         </v-app>
