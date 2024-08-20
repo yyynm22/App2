@@ -37,31 +37,29 @@ const app = new Vue({
             }
         },
 
-        deleteData: async function () {
-            // temperatureの値を確認するためのデバッグ
-            console.log("現在のtemperatureの値:", this.temperature);
-
-            if (!this.temperature) {
+        deleteData: async function (data) {
+            
+            if (!data.temperature) {
                 console.log("temperatureに数値が入力されていません");
                 return;
             }
 
             const params = {
-                temperature: this.temperature,
-                season: this.season,
-                dress: this.dress,
-                dressURL: this.dressURL,
-                mark: this.mark,
+                temperature: data.temperature,
+                season: data.season,
+                dress: data.dress,
+                dressURL: data.dressURL,
+                mark: data.mark,
             };
 
             try {
                 const response = await axios.delete('https://m3h-yuunaminagawa.azurewebsites.net/api/DELETE', { data: params });
                 console.log(response.data);
-                this.temperature = '';
-                this.season = '';
-                this.dress = '';
-                this.dressURL = '';
-                this.mark = '';
+                data.temperature = '';
+                data.season = '';
+                data.dress = '';
+                data.dressURL = '';
+                data.mark = '';
             } catch (error) {
                 console.error("データの削除に失敗しました:", error);
             }
