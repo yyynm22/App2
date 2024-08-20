@@ -12,7 +12,7 @@
 <body>
     <!-- partial:index.partial.html -->
     <!-- Vueで指定された"app"要素、この中でのみVueが有効 -->
-    <v-tabs-items id="app">
+    <div id="app">
         <v-app>
             <v-content>
                 <v-container>
@@ -21,15 +21,15 @@
                         TODAY's fashion
                     </v-row>
                     <!--タブ-->
-                    <v-tabs v-model="tab">
-                        <v-tab>ファッションの登録</v-tab>
-                        <v-tab>過去のファッションを見てみよう</v-tab>
+                    <ul class="tab-group">
+                        <li class="tab tab-A is-active">ファッションの登録</li>
+                        <li class="tab tab-B">過去のファッションを見てみよう</li>
 
-                    </v-tabs>
+                    </ul>
 
                     <!--タブを切り替えて表示するコンテンツ-->
-                    <v-tabs-items v-model="tab"> 
-                        <v-tabitem>
+                    <div class="panel-group">
+                        <div class="panel tab-A is-show">
                             <v-row class="mb-3 mt-3"
                                    align="center"
                                    justify="center">
@@ -150,17 +150,17 @@
 
                             <v-row class="mb-3 mt-3"
                                    justify="center">
-                        </v-tabitem>
+                        </div>
 
 
-                        <v-tabitem>
+                        <div class="panel tab-B">
                             <v-row class="mb-3 mt-3"
                                    justify="center">
                                 <v-btn v-on:click="readData"
                                        rounded>一覧を表示する</v-btn>
-                        </v-tabitem>
+                        </div>
 
-                    </v-tabs-items>
+                    </div>
 
 
 
