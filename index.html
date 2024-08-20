@@ -139,7 +139,7 @@
                             <v-row class="mb-3 mt-3"
                                    align="center"
                                    justify="center">
-                                入力内容確認　→　お気に入り: {{mark}}　気温: {{ temperature }} 　季節:{{season}} 　ファッションポイント: {{ dress }}　　写真:{{ dressURL }}
+                                
                                 <v-btn v-on:click="addData"
                                        dark
                                        big
@@ -184,6 +184,8 @@
                                 <v-card-actions>
                                     <v-img :src="data.dressURL" height="200" contain></v-img>
                                 </v-card-actions>
+                                <v-btn v-on:click="deleteData"
+                                       rounded>削除</v-btn>
                             </v-card>
                         </v-col>
                     </v-row>
