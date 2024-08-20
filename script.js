@@ -38,6 +38,10 @@ const app = new Vue({
         },
 
         deleteData: async function () {
+
+            // テストのために手動で値を設定
+            this.temperature = "25"; // 例: "25" という文字列を設定
+
             console.log("現在のtemperatureの値:", this.temperature);
 
             if (!this.temperature || isNaN(this.temperature)) {
