@@ -159,8 +159,6 @@
                                    justify="center">
                                 <v-btn v-on:click="readData"
                                        rounded>一覧を表示する</v-btn>
-                        </div>
-
 
                         <!-- Card Container for Fashion List -->
                         <v-row class="fashion-list">
@@ -179,12 +177,16 @@
                                     <v-card-actions>
                                         <v-img :src="data.dressURL" height="200" contain></v-img>
                                         <v-btn v-on:click="deleteData(data)"
-                                               rounded>削除</v-btn>
+                                                rounded>削除</v-btn>
                                     </v-card-actions>
 
                                 </v-card>
                             </v-col>
                         </v-row>
+</div>
+
+
+                       
 
 
                     </div>
