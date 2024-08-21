@@ -151,3 +151,14 @@ img {
     justify-content: center;
     align-items: center;
 }
+
+/* カードの拡大アニメーション */
+.expand {
+    transform: scale(1.2); /* 拡大率を指定 */
+    transition: transform 0.3s ease-in-out; /* 拡大アニメーションの速度 */
+    z-index: 10; /* 前面に表示 */
+}
+
+.v-card {
+    cursor: pointer; /* カーソルをポインターに */
+}

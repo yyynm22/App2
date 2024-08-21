@@ -73,6 +73,20 @@ const app = new Vue({
                 console.error("データの取得に失敗しました:", error);
             }
         },
+
+        toggleExpand(card) {
+            if (card.isExpanded) {
+                card.isExpanded = false;
+            } else {
+                // 他のカードの拡大を解除
+                this.dataList.forEach(item => {
+                    item.isExpanded = false;
+                });
+                card.isExpanded = true;
+            }
+        }
+
+
     },
 });
 
