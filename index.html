@@ -22,11 +22,8 @@
                     </v-row>
                     <!--タブ-->
                     <ul class="tab-group">
-                        <li class="tab tab-A is-active">ファッションの登録</li>
-                        <li class="tab tab-B">
-                            <v-btn v-on:click="readData"
-                                   >過去のファッションを見てみよう
-                        </li>
+                        <li class="tab tab-A ">ファッションの登録</li>
+                        <li class="tab tab-B ">過去のファッションを見てみよう</li>
 
                     </ul>
 
@@ -157,7 +154,12 @@
 
 
 
-                        
+                        <div class="panel tab-B">
+                            <v-row class="mb-3 mt-3"
+                                   justify="center">
+                                <v-btn v-on:click="readData"
+                                       rounded>一覧を表示する</v-btn>
+                        </div>
 
                     </div>
 
