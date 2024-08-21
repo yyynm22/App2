@@ -75,12 +75,19 @@ select {
     margin: 10px;
     font-size: 16px;
 }
+/* v-btn1 のスタイル変更 */
 v-btn1 {
-    background-color: rgba(255, 255, 255, 0); /* 背景を完全に透明に設定 */
-    border: none; /* ボーダーをなしに設定 */
-    color: #000; /* 文字色を指定 */
-    cursor: pointer; /* ホバー時にポインターに変更 */
-    padding: 10px 20px;
+  color: white; /* ピンク色 */
+}
+
+/* v-btn1 の選択状態のスタイル変更 */
+.tab-B.is-active v-btn1 {
+  color: white; /* 白色 */
+}
+
+/* タブとv-btn1のアクティブ状態のスタイル変更 */
+.tab-group .tab.is-active + .tab-B v-btn1 {
+    color: #c2185b; /* 白色 */
 }
     .v-btn:hover {
     background-color: #c2185b; /* ホバー時に少し濃いピンク色 */
