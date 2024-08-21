@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CodePen - App開発２</title>
+    <title>App開発２</title>
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css'>
     <link rel='stylesheet' href='https://unpkg.com/@mdi/font@6.x/css/materialdesignicons.min.css'>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'>
@@ -12,18 +12,18 @@
 <body>
     <!-- partial:index.partial.html -->
     <!-- Vueで指定された"app"要素、この中でのみVueが有効 -->
-    <div id="app">
+   <div id="app">
         <v-app>
             <v-content>
                 <v-container>
                     <v-row class="text-h3 mb-3 mt-3"
                            justify="center">
-                        TODAY's fashion
+                        your favorite fashion
                     </v-row>
                     <!--タブ-->
                     <ul class="tab-group">
-                        <li class="tab tab-A is-active">ファッションの登録</li>
-                        <li class="tab tab-B "v-btn v-on:click="readData">過去のファッションを見てみよう</li>
+                        <li class="tab tab-A is-active">Regist Your Favorite Fashions</li>
+                        <li class="tab tab-B "v-btn v-on:click="readData">Check  The Fashions</li>
 
                     </ul>
 
@@ -106,8 +106,8 @@
                                         <!-- 気温のオプション -->
                                         <option value="">お気に入り登録</option>
 
-                                        <option value="🌟">🌟</option>
-                                        <option value="❤">❤</option>
+                                        <option value=""></option>
+                                        <option value="♡">♡</option>
                                         <option value="🌞">🌞</option>
                                         <option value="☔">☔</option>
                                         <option value="☁">☁</option>
@@ -161,32 +161,32 @@
                                        rounded>update</v-btn>
                                
 
-                    <!-- Card Container for Fashion List -->
-                    <v-row class="fashion-list">
-                        <v-col v-for="data in dataList" :key="data.id" cols="12" sm="4" md="4">
-                            <v-card class="mx-auto my-3" max-width="344">
-                                <v-card-title>
-                                    <span class="headline"> {{data.mark}}</span>
-                                </v-card-title>
-                                <v-card-subtitle>
-                                    <span>Temperature: {{data.temperature}}</span><br>
-                                    <span>Season: {{data.season}}</span>
-                                </v-card-subtitle>
-                                <v-card-text>
-                                    <p>{{data.dress}}</p>
-                                </v-card-text>
-                                <v-card-actions>
-                                    <v-img :src="data.dressURL" height="200" contain></v-img>
-                                    <v-btn v-on:click="deleteData(data)"
-                                           style="position: absolute; top: 8px; right: 8px;"
-                                           small
-                                           rounded>削除</v-btn>
-                                </v-card-actions>
-                            </v-card>
+                                <!-- Card Container for Fashion List -->
+                                <v-row class="fashion-list">
+                                    <v-col v-for="data in dataList" :key="data.id" cols="12" sm="4" md="4">
+                                        <v-card class="mx-auto my-3" max-width="344">
+                                            <v-card-title>
+                                                <span class="headline"> {{data.mark}}</span>
+                                            </v-card-title>
+                                            <v-card-subtitle>
+                                                <span>Temperature: {{data.temperature}}</span><br>
+                                                <span>Season: {{data.season}}</span>
+                                            </v-card-subtitle>
+                                            <v-card-text>
+                                                <p>{{data.dress}}</p>
+                                            </v-card-text>
+                                            <v-card-actions>
+                                                <v-img :src="data.dressURL" height="200" contain></v-img>
+                                                <v-btn v-on:click="deleteData(data)"
+                                                       style="position: absolute; top: 8px; right: 8px;"
+                                                       small
+                                                       rounded>削除</v-btn>
+                                            </v-card-actions>
+                                        </v-card>
 
-                        </v-col>
-                    </v-row>
-</div>
+                                    </v-col>
+                                </v-row>
+                        </div>
 
 
                        
