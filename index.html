@@ -106,8 +106,8 @@
                                         <!-- 気温のオプション -->
                                         <option value="">お気に入り登録</option>
 
-                                        <option value="☆">☆</option>
-                                        <option value="♡">♡</option>
+                                        <option value="🌟">🌟</option>
+                                        <option value="❤">❤</option>
                                         <option value="🌞">🌞</option>
                                         <option value="☔">☔</option>
                                         <option value="☁">☁</option>
@@ -178,10 +178,12 @@
                                 <v-card-actions>
                                     <v-img :src="data.dressURL" height="200" contain></v-img>
                                     <v-btn v-on:click="deleteData(data)"
-                                            rounded>削除</v-btn>
+                                           style="position: absolute; top: 8px; right: 8px;"
+                                           small
+                                           rounded>削除</v-btn>
                                 </v-card-actions>
-
                             </v-card>
+
                         </v-col>
                     </v-row>
 </div>
