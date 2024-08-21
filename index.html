@@ -22,7 +22,7 @@
                     </v-row>
                     <!--タブ-->
                     <ul class="tab-group">
-                        <li class="tab tab-A ">ファッションの登録</li>
+                        <li class="tab tab-A is-active">ファッションの登録</li>
                         <li class="tab tab-B ">過去のファッションを見てみよう</li>
 
                     </ul>
@@ -139,7 +139,7 @@
                             <v-row class="mb-3 mt-3"
                                    align="center"
                                    justify="center">
-                                
+
                                 <v-btn v-on:click="addData"
                                        dark
                                        big
@@ -161,36 +161,38 @@
                                        rounded>一覧を表示する</v-btn>
                         </div>
 
+
+                        <!-- Card Container for Fashion List -->
+                        <v-row class="fashion-list">
+                            <v-col v-for="data in dataList" :key="data.id" cols="12" sm="4" md="4">
+                                <v-card class="mx-auto my-3" max-width="344">
+                                    <v-card-title>
+                                        <span class="headline"> {{data.mark}}</span>
+                                    </v-card-title>
+                                    <v-card-subtitle>
+                                        <span>Temperature: {{data.temperature}}</span><br>
+                                        <span>Season: {{data.season}}</span>
+                                    </v-card-subtitle>
+                                    <v-card-text>
+                                        <p>{{data.dress}}</p>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-img :src="data.dressURL" height="200" contain></v-img>
+                                        <v-btn v-on:click="deleteData(data)"
+                                               rounded>削除</v-btn>
+                                    </v-card-actions>
+
+                                </v-card>
+                            </v-col>
+                        </v-row>
+
+
                     </div>
 
 
 
 
                     
-
-                    <!-- Card Container for Fashion List -->
-                    <v-row class="fashion-list">
-                        <v-col v-for="data in dataList" :key="data.id" cols="12" sm="4" md="4">
-                            <v-card class="mx-auto my-3" max-width="344">
-                                <v-card-title>
-                                    <span class="headline"> {{data.mark}}</span>
-                                </v-card-title>
-                                <v-card-subtitle>
-                                    <span>Temperature: {{data.temperature}}</span><br>
-                                    <span>Season: {{data.season}}</span>
-                                </v-card-subtitle>
-                                <v-card-text>
-                                    <p>{{data.dress}}</p>
-                                </v-card-text>
-                                <v-card-actions>
-                                    <v-img :src="data.dressURL" height="200" contain></v-img>
-                                    <v-btn v-on:click="deleteData(data)"
-                                           rounded>削除</v-btn>
-                                </v-card-actions>
-                                
-                            </v-card>
-                        </v-col>
-                    </v-row>
 
 
 
