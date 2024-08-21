@@ -11,27 +11,27 @@ const app = new Vue({
     },
     methods: {
         addData: async function () {
-            if (!this.temperature || isNaN(this.temperature)) {
+            if (!data.temperature || isNaN(data.temperature)) {
                 console.log("temperatureに数値が入力されていません");
                 return;
             }
 
             const param = {
-                temperature: this.temperature,
-                season: this.season,
-                dress: this.dress,
-                dressURL: this.dressURL,
-                mark: this.mark,
+                temperature: data.temperature,
+                season: data.season,
+                dress: data.dress,
+                dressURL: data.dressURL,
+                mark: data.mark,
             };
 
             try {
                 const response = await axios.post('https://m3h-yuunaminagawa.azurewebsites.net/api/INSERT', param);
                 console.log(response.data);
-                this.temperature = '';
-                this.season = '';
-                this.dress = '';
-                this.dressURL = '';
-                this.mark = '';
+                data.temperature = '';
+                data.season = '';
+                data.dress = '';
+                data.dressURL = '';
+                data.mark = '';
             } catch (error) {
                 console.error("データの追加に失敗しました:", error);
             }
@@ -56,7 +56,7 @@ const app = new Vue({
                 console.log(response.data);
 
                 // データ削除が成功した場合に、一覧から該当データを削除
-                this.dataList = this.dataList.filter(item => item.temperature !== data.temperature);
+                data.dataList = data.dataList.filter(item => item.temperature !== data.temperature);
             } catch (error) {
                 console.error("データの削除に失敗しました:", error);
             }
@@ -68,7 +68,7 @@ const app = new Vue({
             try {
                 const response = await axios.get('https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT');
                 console.log(response.data);
-                this.dataList = response.data.List.sort((a, b) => a.temperature - b.temperature);
+                data.dataList = response.data.List.sort((a, b) => a.temperature - b.temperature);
             } catch (error) {
                 console.error("データの取得に失敗しました:", error);
             }
