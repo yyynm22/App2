@@ -75,10 +75,16 @@ select {
     margin: 10px;
     font-size: 16px;
 }
-
+v-btn1 {
+    background-color: rgba(255, 255, 255, 0); /* 背景を完全に透明に設定 */
+    border: none; /* ボーダーをなしに設定 */
+    color: #000; /* 文字色を指定 */
+    cursor: pointer; /* ホバー時にポインターに変更 */
+    padding: 10px 20px;
+}
     .v-btn:hover {
-        background-color: #c2185b; /* ホバー時に少し濃いピンク色 */
-    }
+    background-color: #c2185b; /* ホバー時に少し濃いピンク色 */
+}
 
 /* データリストアイテムのスタイル */
 .v-row {
