@@ -29,11 +29,23 @@ body {
     margin: 5px;
 }
 
+
     .tab.is-active {
         background-color: #d81b60; /* ピンク色 */
         color: #fff;
         transform: scale(1.05); /* ホバー時に拡大 */
     }
+
+.tab-B v-btn1 {
+    width: 100%; /* タブBの幅に合わせる */
+    height: 100%; /* タブBの高さに合わせる */
+    padding: 10px 20px; /* ボタン内のパディングを調整 */
+    font-size: 16px; /* 文字サイズを調整 */
+    background-color: transparent; /* 背景を透明にする */
+    border: none; /* ボーダーを削除 */
+    color: #c2185b; /* 文字色をピンクにする */
+}
+
 
 .panel-group {
     border: solid 1px #ff80ab; /* 薄いピンク */
