@@ -37,18 +37,18 @@ const app = new Vue({
             }
         },
 
-        deleteData: async function (item) {
-            if (!item.temperature) {
+        deleteData: async function (data) {
+            if (!data.temperature) {
                 console.log("temperatureに数値が入力されていません");
                 return;
             }
 
             const param = {
-                temperature: item.temperature,
-                season: item.season,
-                dress: item.dress,
-                dressURL: item.dressURL,
-                mark: item.mark
+                temperature: data.temperature,
+                season: data.season,
+                dress: data.dress,
+                dressURL: data.dressURL,
+                mark: data.mark
             };
 
             try {
@@ -56,11 +56,13 @@ const app = new Vue({
                 console.log(response.data);
 
                 // データ削除が成功した場合に、一覧から該当データを削除
-                this.dataList = this.dataList.filter(i => i.temperature !== item.temperature);
+                this.dataList = this.dataList.filter(item => item.temperature !== data.temperature);
             } catch (error) {
                 console.error("データの削除に失敗しました:", error);
             }
         },
+
+
 
         readData: async function () {
             try {

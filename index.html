@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>App開発２</title>
+    <title>CodePen - App開発２</title>
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css'>
     <link rel='stylesheet' href='https://unpkg.com/@mdi/font@6.x/css/materialdesignicons.min.css'>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'>
@@ -18,14 +18,12 @@
                 <v-container>
                     <v-row class="text-h3 mb-3 mt-3"
                            justify="center">
-                        Register your favorite fashion.
+                        TODAY's fashion
                     </v-row>
                     <!--タブ-->
                     <ul class="tab-group">
-                        <li class="tab tab-A is-active">let's register'</li>
-                        <li class="tab tab-B" v-btn1 v-on:click="readData">
-                            let's take a look'
-                        </li>
+                        <li class="tab tab-A is-active">ファッションの登録</li>
+                        <li class="tab tab-B ">過去のファッションを見てみよう</li>
 
                     </ul>
 
@@ -38,74 +36,75 @@
                                 <v-col cols="4">
                                     <select id="temp-A" v-model:value="temperature" class="temperature">
                                         <!-- 気温のオプション -->
-                                        <option value="">tempereture</option>
+                                        <option value="">気温を選択してね</option>
 
-                                        <option value="below-6℃">below-6℃</option>
-                                        <option value="-5℃">-5℃</option>
-                                        <option value="-4℃">-4℃</option>
-                                        <option value="-3℃">-3℃</option>
-                                        <option value="-2℃">-2℃</option>
-                                        <option value="-1℃">-1℃</option>
-                                        <option value="0℃">0℃</option>
-                                        <option value="1℃">1℃</option>
-                                        <option value="2℃">2℃</option>
-                                        <option value="3℃">3℃</option>
-                                        <option value="4℃">4℃</option>
-                                        <option value="5℃">5℃</option>
-                                        <option value="6℃">6℃</option>
-                                        <option value="7℃">7℃</option>
-                                        <option value="8℃">8℃</option>
-                                        <option value="9℃">9℃</option>
-                                        <option value="10℃">10℃</option>
-                                        <option value="11℃">11℃</option>
-                                        <option value="12℃">12℃</option>
-                                        <option value="13℃">13℃</option>
-                                        <option value="14℃">14℃</option>
-                                        <option value="15℃">15℃</option>
-                                        <option value="15℃">15℃</option>
-                                        <option value="16℃">16℃</option>
-                                        <option value="17℃">17℃</option>
-                                        <option value="18℃">18℃</option>
-                                        <option value="19℃">19℃</option>
-                                        <option value="20℃">20℃</option>
-                                        <option value="21℃">21℃</option>
-                                        <option value="22℃">22℃</option>
-                                        <option value="23℃">23℃</option>
-                                        <option value="24℃">24℃</option>
-                                        <option value="25℃">25℃</option>
-                                        <option value="26℃">26℃</option>
-                                        <option value="27℃">27℃</option>
-                                        <option value="28℃">28℃</option>
-                                        <option value="29℃">29℃</option>
-                                        <option value="30℃">30℃</option>
-                                        <option value="31℃">31℃</option>
-                                        <option value="32℃">32℃</option>
-                                        <option value="33℃">33℃</option>
-                                        <option value="34℃">34℃</option>
-                                        <option value="35℃">35℃</option>
-                                        <option value="36℃">36℃</option>
-                                        <option value="37℃">37℃</option>
-                                        <option value="38℃">38℃</option>
-                                        <option value="39℃">39℃</option>
-                                        <option value="40℃">40℃</option>
-                                        <option value="41℃more">41℃more</option>
-
+                                        <option value="-6℃以下">-6℃以下</option>
+                                        <option value="-5">-5℃</option>
+                                        <option value="-4">-4℃</option>
+                                        <option value="-3">-3℃</option>
+                                        <option value="-2">-2℃</option>
+                                        <option value="-1">-1℃</option>
+                                        <option value="0">0℃</option>
+                                        <option value="0">0℃</option>
+                                        <option value="1">1℃</option>
+                                        <option value="2">2℃</option>
+                                        <option value="3">3℃</option>
+                                        <option value="4">4℃</option>
+                                        <option value="5">5℃</option>
+                                        <option value="6">6℃</option>
+                                        <option value="7">7℃</option>
+                                        <option value="8">8℃</option>
+                                        <option value="9">9℃</option>
+                                        <option value="10">10℃</option>
+                                        <option value="11">11℃</option>
+                                        <option value="12">12℃</option>
+                                        <option value="13">13℃</option>
+                                        <option value="14">14℃</option>
+                                        <option value="15">15℃</option>
+                                        <option value="15">15℃</option>
+                                        <option value="16">16℃</option>
+                                        <option value="17">17℃</option>
+                                        <option value="18">18℃</option>
+                                        <option value="19">19℃</option>
+                                        <option value="20">20℃</option>
+                                        <option value="21">21℃</option>
+                                        <option value="22">22℃</option>
+                                        <option value="23">23℃</option>
+                                        <option value="24">24℃</option>
+                                        <option value="25">25℃</option>
+                                        <option value="26">26℃</option>
+                                        <option value="27">27℃</option>
+                                        <option value="28">28℃</option>
+                                        <option value="29">29℃</option>
+                                        <option value="30">30℃</option>
+                                        <option value="31">31℃</option>
+                                        <option value="32">32℃</option>
+                                        <option value="33">33℃</option>
+                                        <option value="34">34℃</option>
+                                        <option value="35">35℃</option>
+                                        <option value="35">35℃</option>
+                                        <option value="36">36℃</option>
+                                        <option value="37">37℃</option>
+                                        <option value="38">38℃</option>
+                                        <option value="39">39℃</option>
+                                        <option value="40">40℃</option>
+                                        <option value="41">41℃以上</option>
                                     </select>
 
 
                                     <select id="temp-B" v-model:value="season" class="season">
                                         <!-- 気温のオプション -->
-                                        <option value="">season</option>
+                                        <option value="">季節を選択してね</option>
 
-                                        <option value="Srpring">Spring</option>
-                                        <option value="Summer">Summer</option>
-                                        <option value="Autumn">Autumn</option>
-                                        <option value="Winter">Winter</option>
+                                        <option value="春">春</option>
+                                        <option value="夏">夏</option>
+                                        <option value="秋">秋</option>
+                                        <option value="冬">冬</option>
                                     </select>
 
                                     <select id="temp-B" v-model:value="mark" class="mark">
                                         <!-- 気温のオプション -->
-                                        <option value="">mark</option>
+                                        <option value="">お気に入り登録</option>
 
                                         <option value="☆">☆</option>
                                         <option value="♡">♡</option>
@@ -120,16 +119,16 @@
                                 <v-col cols="6">
                                     <v-text-field class="ml-6 mr-6"
                                                   v-model="dress"
-                                                  label="fashion point"
-                                                  placeholder="Enter fashion points…"
+                                                  label="今日の服装ポイントを入力"
+                                                  placeholder="今日の服装ポイントを入力…"
                                                   outlined>
                                     </v-text-field>
 
                                     <!-- 新しいテキストボックスを追加 -->
                                     <v-text-field class="ml-6 mr-6"
                                                   v-model="dressURL"
-                                                  label="PhotoURL"
-                                                  placeholder="Enter PhotoURL…"
+                                                  label="写真のURL"
+                                                  placeholder="写真URLの入力…"
                                                   outlined>
                                     </v-text-field>
                                 </v-col>
@@ -145,7 +144,7 @@
                                        dark
                                        big
                                        color="pink">
-                                    save
+                                    保存
                                 </v-btn>
                             </v-row>
 
@@ -156,11 +155,14 @@
 
 
                         <div class="panel tab-B">
-                            
+                            <v-row class="mb-3 mt-3"
+                                   justify="center">
+                                <v-btn v-on:click="readData"
+                                       rounded>一覧を表示する</v-btn>
                                 <v-row class="mb-3 mt-3"
                                        justify="center">
                                     <v-btn v-on:click="readData"
-                                           rounded>updata</v-btn>
+                                           rounded>一覧を表示する</v-btn>
 
                                     <!-- Card Container for Fashion List -->
                                     <v-row class="fashion-list">
@@ -179,9 +181,7 @@
                                                 <v-card-actions>
                                                     <v-img :src="data.dressURL" height="200" contain></v-img>
                                                     <v-btn v-on:click="deleteData(data)"
-                                                           style="position: absolute; top: 8px; right: 8px;"
-                                                           small
-                                                           rounded>delate</v-btn>
+                                                           rounded>削除</v-btn>
                                                 </v-card-actions>
 
                                             </v-card>
