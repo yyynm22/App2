@@ -7,6 +7,9 @@ body {
     padding: 0;
 }
 
+.text-h3 mb-3 mt-3 {
+    font-family: 'Times New Roman', sans-serif;
+}
 /* タブグループのスタイル */
 .tab-group {
     display: flex;
