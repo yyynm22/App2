@@ -7,37 +7,40 @@
     <link rel='stylesheet' href='https://unpkg.com/@mdi/font@6.x/css/materialdesignicons.min.css'>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'>
     <link rel="stylesheet" href="./style.css">
-
 </head>
 <body>
     <!-- partial:index.partial.html -->
     <!-- Vueで指定された"app"要素、この中でのみVueが有効 -->
-   <div id="app">
+    <div id="app">
         <v-app>
+            <!-- ヘッダー -->
+            <v-app-bar app>
+                <v-toolbar-title>My Fashion App</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn text>ホーム</v-btn>
+                <v-btn text>お気に入り</v-btn>
+                <v-btn text>ログイン</v-btn>
+            </v-app-bar>
+
             <v-content>
                 <v-container>
-                    <v-row class="text-h3 mb-3 mt-3"
-                           justify="center">
+                    <v-row class="text-h3 mb-3 mt-3" justify="center">
                         Your Favorite Fashion
                     </v-row>
                     <!--タブ-->
                     <ul class="tab-group">
                         <li class="tab tab-A is-active">Regist Your Favorite Fashions</li>
-                        <li class="tab tab-B "v-btn v-on:click="readData">Check The Fashions</li>
-
+                        <li class="tab tab-B " v-btn v-on:click="readData">Check The Fashions</li>
                     </ul>
 
                     <!--タブを切り替えて表示するコンテンツ-->
                     <div class="panel-group">
                         <div class="panel tab-A is-show">
-                            <v-row class="mb-3 mt-3"
-                                   align="center"
-                                   justify="center">
+                            <v-row class="mb-3 mt-3" align="center" justify="center">
                                 <v-col cols="4">
                                     <select id="temp-A" v-model:value="temperature" class="temperature">
                                         <!-- 気温のオプション -->
                                         <option value="">気温を選択してね</option>
-
                                         <option value="0">0℃</option>
                                         <option value="1">1℃</option>
                                         <option value="2">2℃</option>
@@ -76,11 +79,9 @@
                                         <option value="35">35℃</option>
                                     </select>
 
-
                                     <select id="temp-B" v-model:value="season" class="season">
-                                        <!-- 気温のオプション -->
+                                        <!-- 季節のオプション -->
                                         <option value="">季節を選択してね</option>
-
                                         <option value="春">春</option>
                                         <option value="夏">夏</option>
                                         <option value="秋">秋</option>
@@ -88,71 +89,33 @@
                                     </select>
 
                                     <select id="temp-B" v-model:value="mark" class="mark">
-                                        <!-- 気温のオプション -->
+                                        <!-- お気に入り登録のオプション -->
                                         <option value="">お気に入り登録</option>
-
                                         <option value="-">NOmark</option>
                                         <option value="♡">♡</option>
                                         <option value="🌞">🌞</option>
                                         <option value="☔">☔</option>
                                         <option value="☁">☁</option>
                                     </select>
-
                                 </v-col>
-
 
                                 <v-col cols="6">
-                                    <v-text-field class="ml-6 mr-6"
-                                                  v-model="dress"
-                                                  label="今日の服装ポイントを入力"
-                                                  placeholder="今日の服装ポイントを入力…"
-                                                  outlined>
-                                    </v-text-field>
-
-                                    <!-- 新しいテキストボックスを追加 -->
-                                    <v-text-field class="ml-6 mr-6"
-                                                  v-model="dressURL"
-                                                  label="写真のURL"
-                                                  placeholder="写真URLの入力…"
-                                                  outlined>
-                                    </v-text-field>
+                                    <v-text-field class="ml-6 mr-6" v-model="dress" label="今日の服装ポイントを入力" placeholder="今日の服装ポイントを入力…" outlined></v-text-field>
+                                    <v-text-field class="ml-6 mr-6" v-model="dressURL" label="写真のURL" placeholder="写真URLの入力…" outlined></v-text-field>
                                 </v-col>
                             </v-row>
 
-
-
-                            <v-row class="mb-3 mt-3"
-                                   align="center"
-                                   justify="center">
-
-                                <v-btn v-on:click="addData"
-                                       dark
-                                       big
-                                       color="pink">
-                                    保存
-                                </v-btn>
+                            <v-row class="mb-3 mt-3" align="center" justify="center">
+                                <v-btn v-on:click="addData" dark big color="pink">保存</v-btn>
                             </v-row>
-
-                            <v-row class="mb-3 mt-3"
-                                   justify="center">
                         </div>
 
-
-
                         <div class="panel tab-B">
-                            <v-row class="mb-3 mt-3"
-                                   justify="center">
-
-
-
+                            <v-row class="mb-3 mt-3" justify="center">
                                 <!-- Card Container for Fashion List -->
                                 <v-row class="fashion-list">
                                     <v-col v-for="data in dataList" :key="data.id" cols="12" sm="4" md="4">
-                                        <v-card class="['mx-auto', 'my-3', { 'expand': data.isExpanded }]"  max-width="344" style="min-height: 450px;" v-on:click="toggleExpand(data)"
-                 >
-
-
-
+                                        <v-card class="['mx-auto', 'my-3', { 'expand': data.isExpanded }]" max-width="344" style="min-height: 450px;" v-on:click="toggleExpand(data)">
                                             <v-card-title>
                                                 <span class="headline"> {{data.mark}}</span>
                                             </v-card-title>
@@ -165,33 +128,23 @@
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-img :src="data.dressURL" height="200" contain></v-img>
-                                                <v-btn v-on:click="deleteData(data)"
-                                                       style="position: absolute; top: 8px; right: 8px;"
-                                                       small
-                                                       rounded>削除</v-btn>
+                                                <v-btn v-on:click="deleteData(data)" style="position: absolute; top: 8px; right: 8px;" small rounded>削除</v-btn>
                                             </v-card-actions>
                                         </v-card>
                                     </v-col>
                                 </v-row>
-
-</div>
-
-
-                       
-
-
+                            </v-row>
+                        </div>
                     </div>
-
-
-
-
-                    
-
-
-
-
                 </v-container>
             </v-content>
+
+            <!-- フッター -->
+            <v-footer app padless>
+                <v-col class="text-center" cols="12">
+                    © 2024 My Fashion App
+                </v-col>
+            </v-footer>
         </v-app>
     </div>
     <!-- partial -->
@@ -199,6 +152,5 @@
     <script src='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js'></script>
     <script src="./script.js"></script>
-
 </body>
 </html>
