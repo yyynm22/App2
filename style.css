@@ -1,3 +1,5 @@
+/* style.css */
+
 /* 全体の背景色とフォント設定 */
 body {
     background-color: #fce4ec; /* 淡いピンク */
@@ -7,9 +9,14 @@ body {
     padding: 0;
 }
 
-.text-h3 mb-3 mt-3 {
-    font-family: 'Times New Roman', sans-serif;
+
+/* フッター、ヘッダーのフォント設定 */
+.custom-font {
+    font-family: 'Times New Roman', sans-serif !important;
 }
+
+/* 他のスタイルはそのまま */
+
 /* タブグループのスタイル */
 .tab-group {
     display: flex;
