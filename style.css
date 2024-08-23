@@ -15,6 +15,7 @@ body {
 }
 
 .tab {
+    font-family: 'Times New Roman', sans-serif;
     flex: 1;
     padding: 15px;
     list-style: none;
@@ -37,6 +38,7 @@ body {
     }
 
 .tab-B v-btn1 {
+    font-family: 'Times New Roman', sans-serif;
     width: 100%; /* タブBの幅に合わせる */
     height: 100%; /* タブBの高さに合わせる */
     padding: 10px 20px; /* ボタン内のパディングを調整 */
