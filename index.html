@@ -103,7 +103,11 @@
                             </v-row>
 
                             <v-row class="mb-3 mt-3" align="center" justify="center">
-                                <v-btn v-on:click="addData" dark big color="pink">保存</v-btn>
+                                <v-btn v-on:click="addData" dark big color="pink">
+                                    <v-icon left>mdi-content-save</v-icon>
+                                    保存
+                                </v-btn>
+
                             </v-row>
                         </div>
 
@@ -125,7 +129,10 @@
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-img :src="data.dressURL" height="200" contain></v-img>
-                                                <v-btn v-on:click="deleteData(data)" style="position: absolute; top: 8px; right: 8px;" small rounded>削除</v-btn>
+                                                <v-btn v-on:click="deleteData(data)" style="position: absolute; top: 8px; right: 8px;" small rounded>
+                                                    <v-icon>mdi-delete-forever</v-icon>
+                                                </v-btn>
+
                                             </v-card-actions>
                                         </v-card>
                                     </v-col>
