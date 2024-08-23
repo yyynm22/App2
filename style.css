@@ -53,6 +53,7 @@ body {
 
 
 .panel-group {
+    font-family: 'Times New Roman', sans-serif;
     border: solid 1px #ff80ab; /* 薄いピンク */
     border-top: none;
     background: #f8bbd0; /* 淡いピンク */
@@ -68,6 +69,7 @@ body {
 
 /* セレクトボックスのスタイル */
 select {
+    font-family: 'Times New Roman', sans-serif;
     padding: 10px;
     border: 1px solid #ff80ab; /* ピンク色 */
     border-radius: 4px;
@@ -89,12 +91,14 @@ select {
 }
 
 .v-btn {
+    font-family: 'Times New Roman', sans-serif;
     margin: 10px;
     font-size: 16px;
 }
 /* v-btn1 のスタイル変更 */
 v-btn1 {
-  color: white; /* ピンク色 */
+    font-family: 'Times New Roman', sans-serif;
+    color: white; /* ピンク色 */
 }
 
 /* v-btn1 の選択状態のスタイル変更 */
@@ -123,6 +127,7 @@ img {
 
 /* Fashion List Styles */
 .fashion-list {
+    font-family: 'Times New Roman', sans-serif;
     margin: 0;
     padding: 0;
 }
