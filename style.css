@@ -154,7 +154,7 @@ img {
 
 /* カードの拡大アニメーション */
 .expand {
-    transform: scale(3.0); /* 拡大率を指定 */
+    transform: scale(1.5); /* 拡大率を指定 */
     transition: transform 0.3s ease-in-out; /* 拡大アニメーションの速度 */
     z-index: 50; /* 前面に表示 */
 }
