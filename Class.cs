@@ -1,4 +1,4 @@
-﻿using FunctionAPIApp;
+using FunctionAPIApp;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -87,9 +87,6 @@ namespace FunctionAPIApp
         [JsonProperty("product_gender")]
         public string product_gender { get; set; }
 
-        [JsonProperty("product_size")]
-        public string product_size { get; set; }
-
         [JsonProperty("URL")]
         public string URL { get; set; }
 
@@ -97,6 +94,9 @@ namespace FunctionAPIApp
 
     public class subsc_ordercart_tableRow
     {
+        
+        [JsonProperty("product_id")]
+        public int product_id { get; set; }
 
         [JsonProperty("user_id")]
         public int user_id { get; set; }
@@ -109,9 +109,6 @@ namespace FunctionAPIApp
 
         [JsonProperty("quantity")]
         public int quantity { get; set; }
-
-        [JsonProperty("URL")]
-        public string URL { get; set; }
 
     }
 
