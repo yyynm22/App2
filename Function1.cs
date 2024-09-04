@@ -510,6 +510,8 @@ namespace FunctionAPIApp
             string responseMessage = "INSERT2 RESULT:";
 
             //インサート用のパラメーター取得（GETメソッド用）
+            string product_id = req.Query["product_id"];
+            string user_id = req.Query["user_id"];
             string product_name = req.Query["product_name"];
             string product_size = req.Query["product_size"];
             string quantity = req.Query["quantity"];
@@ -517,12 +519,14 @@ namespace FunctionAPIApp
             //インサート用のパラメーター取得（POSTメソッド用）
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
+            product_id = product_id ?? data?.product_id;
+            user_id = user_id ?? data?.user_id;
             product_name = product_name ?? data?.product_name;
             product_size = product_size ?? data?.product_size;
             quantity = quantity ?? data?.quantity;
 
             //両パラメーターを取得できた場合のみ処理
-            if (!string.IsNullOrWhiteSpace(product_name) && !string.IsNullOrWhiteSpace(product_size) && !string.IsNullOrWhiteSpace(quantity))
+            if (!string.IsNullOrWhiteSpace(product_id) && !string.IsNullOrWhiteSpace(user_id) && !string.IsNullOrWhiteSpace(product_name) && !string.IsNullOrWhiteSpace(product_size) && !string.IsNullOrWhiteSpace(quantity))
             {
                 try
                 {
@@ -539,12 +543,14 @@ namespace FunctionAPIApp
                     {
 
                         //実行するSQL（パラメーター付き）
-                        String sql = "INSERT INTO subsc_ordercart_table(product_name, product_size, quantity) VALUES(@product_name, @product_size, @quantity)";
+                        String sql = "INSERT INTO subsc_ordercart_table(product_id, user_id, product_name, product_size, quantity) VALUES(@product_id, @user_id, @product_name, @product_size, @quantity)";
 
                         //SQLコマンドを初期化
                         using (SqlCommand command = new SqlCommand(sql, connection))
                         {
                             //パラメーターを設定
+                            command.Parameters.AddWithValue("@product_id", int.Parse(product_id));
+                            command.Parameters.AddWithValue("@user_id", int.Parse(user_id));
                             command.Parameters.AddWithValue("@product_name", product_name);
                             command.Parameters.AddWithValue("@product_size", product_size);
                             command.Parameters.AddWithValue("@quantity", quantity);
@@ -678,7 +684,9 @@ namespace FunctionAPIApp
             //HTTPレスポンスで返す文字列を定義
             string responseMessage = "DELETE2 RESULT:";
 
-            //インサート用のパラメーター取得（GETメソッド用）
+            //インサート用のパラメーター取得（GETメソッド用）product_id
+            string product_id = req.Query["product_id"];
+            string user_id = req.Query["user_id"];
             string product_name = req.Query["product_name"];
             string product_size = req.Query["product_size"];
             string quantity = req.Query["quantity"];
@@ -686,12 +694,14 @@ namespace FunctionAPIApp
             //DELETE用のパラメーター取得（POSTメソッド用）
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
+            product_id = product_id ?? data?.product_id;
+            user_id = user_id ?? data?.user_id;
             product_name = product_name ?? data?.product_name;
             product_size = product_size ?? data?.product_size;
             quantity = quantity ?? data?.quantity;
 
             //両パラメーターを取得できた場合のみ処理
-            if (!string.IsNullOrWhiteSpace(product_name) && !string.IsNullOrWhiteSpace(product_size) && !string.IsNullOrWhiteSpace(quantity))
+            if (!string.IsNullOrWhiteSpace(product_id) && !string.IsNullOrWhiteSpace(user_id) && !string.IsNullOrWhiteSpace(product_name) && !string.IsNullOrWhiteSpace(product_size) && !string.IsNullOrWhiteSpace(quantity))
             {
                 try
                 {
@@ -708,12 +718,14 @@ namespace FunctionAPIApp
                     {
 
                         //実行するSQL（パラメーター付き）
-                        String sql = "DELETE FROM  subsc_ordercart_table WHERE product_name LIKE @product_name AND  product_size LIKE @product_size AND quantity LIKE @quantity";
+                        String sql = "DELETE FROM  subsc_ordercart_table WHERE product_id LIKE @product_id AND user_id LIKE @user_id AND  product_name LIKE @product_name AND  product_size LIKE @product_size AND quantity LIKE @quantity";
 
                         //SQLコマンドを初期化
                         using (SqlCommand command = new SqlCommand(sql, connection))
                         {
                             //パラメーターを設定
+                            command.Parameters.AddWithValue("@product_id", int.Parse(product_id));
+                            command.Parameters.AddWithValue("@user_id", int.Parse(user_id));
                             command.Parameters.AddWithValue("@product_name", product_name);
                             command.Parameters.AddWithValue("@product_size", product_size);
                             command.Parameters.AddWithValue("@quantity", quantity);
