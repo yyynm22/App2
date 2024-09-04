@@ -167,7 +167,7 @@ namespace FunctionAPIApp
                     Console.WriteLine("=========================================\n");
 
                     //実行するクエリ
-                    String sql = "SELECT product_name, product_category, product_gender, prodct_size, URL FROM subsc_product_table";
+                    String sql = "SELECT product_name, product_category, product_gender, URL FROM subsc_product_table";
 
                     //SQL実行オブジェクトの初期化
                     using (SqlCommand command = new SqlCommand(sql, connection))
@@ -185,7 +185,13 @@ namespace FunctionAPIApp
                             while (reader.Read())
                             {
                                 //オブジェクトに結果を格納
-                                resultList.List.Add(new subsc_product_tableRow { product_name = reader.GetString("product_name"), product_category = reader.GetString("product_category"), product_gender = reader.GetString("product_gender"), prodct_size = reader.GetString("prodct_size"), URL = reader.GetString("URL") });
+                                resultList.List.Add(new subsc_product_tableRow
+                                {
+                                    product_name = reader.GetString("product_name"),
+                                    product_category = reader.GetString("product_category"),
+                                    product_gender = reader.GetString("product_gender"),
+                                    URL = reader.GetString("URL")
+                                });
                             }
                             //JSONオブジェクトを文字列に変換
                             responseMessage = JsonConvert.SerializeObject(resultList);
@@ -329,7 +335,13 @@ namespace FunctionAPIApp
                                 while (reader.Read())
                                 {
                                     //オブジェクトに結果を格納
-                                    resultList.List.Add(new subsc_product_tableRow { product_name = reader.GetString("product_name"), product_category = reader.GetString("product_category"), product_gender = reader.GetString("product_gender"), prodct_size = reader.GetString("prodct_size"), URL = reader.GetString("URL") });
+                                    resultList.List.Add(new subsc_product_tableRow
+                                    {
+                                        product_name = reader.GetString("product_name"),
+                                        product_category = reader.GetString("product_category"),
+                                        product_gender = reader.GetString("product_gender"),
+                                        URL = reader.GetString("URL")
+                                    });
                                 }
                                 //JSONオブジェクトを文字列に変換
                                 responseMessage = JsonConvert.SerializeObject(resultList);
@@ -351,8 +363,8 @@ namespace FunctionAPIApp
 
             //HTTPレスポンスを返却
             return new OkObjectResult(responseMessage);
-
         }
+
 
 
         //注文詳細テーブル
