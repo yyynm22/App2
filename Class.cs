@@ -63,6 +63,18 @@ namespace FunctionAPIApp
         [JsonProperty("user_pass")]
         public string user_pass { get; set; }
 
+        [JsonProperty("user_mail")]
+        public string user_mail { get; set; }
+
+        [JsonProperty("user_postcode")]
+        public int user_postcode { get; set; }
+
+        [JsonProperty("user_adress")]
+        public string user_adress { get; set; }
+
+        [JsonProperty("user_telenum")]
+        public int user_telenum { get; set; }
+
     }
 
     public class subsc_employee_tableRow
