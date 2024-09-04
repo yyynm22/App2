@@ -75,7 +75,7 @@ namespace FunctionAPIApp
         public string employee_pass { get; set; }
 
     }
-   
+
 
     public class subsc_product_tableRow
     {
@@ -88,9 +88,6 @@ namespace FunctionAPIApp
 
         [JsonProperty("product_gender")]
         public string product_gender { get; set; }
-
-        [JsonProperty("prodct_size")]
-        public string prodct_size { get; set; }
 
         [JsonProperty("URL")]
         public string URL { get; set; }
