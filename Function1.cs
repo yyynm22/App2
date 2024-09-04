@@ -455,7 +455,7 @@ namespace FunctionAPIApp
                     {
 
                         //実行するSQL（パラメーター付き）
-                        String sql = "INSERT INTO subsc_product_table(product_name, product_category, product_gender,product_size, URL) VALUES(@product_name, @product_category, @URL)";
+                        String sql = "INSERT INTO subsc_product_table(product_name, product_category, product_gender, URL) VALUES(@product_name, @product_category, @product_gender, @URL)";
 
                         //SQLコマンドを初期化
                         using (SqlCommand command = new SqlCommand(sql, connection))
