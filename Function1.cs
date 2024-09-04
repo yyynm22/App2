@@ -41,7 +41,7 @@ namespace FunctionAPIApp
                     Console.WriteLine("=========================================\n");
 
                     //実行するクエリ
-                    String sql = "SELECT user_name, user_pass FROM subsc_user_table";
+                    String sql = "SELECT user_name, user_pass, user_mail, user_postcode, user_adress, user_telenum FROM subsc_user_table";
 
                     //SQL実行オブジェクトの初期化
                     using (SqlCommand command = new SqlCommand(sql, connection))
@@ -59,7 +59,7 @@ namespace FunctionAPIApp
                             while (reader.Read())
                             {
                                 //オブジェクトに結果を格納
-                                resultList.List.Add(new subsc_user_tableRow { user_name = reader.GetString("user_name"), user_pass = reader.GetString("user_pass") });
+                                resultList.List.Add(new subsc_user_tableRow { user_name = reader.GetString("user_name"), user_pass = reader.GetString("user_pass"), user_mail = reader.GetString("user_mail"), user_postcode = reader.GetInt32("user_postcode"), user_adress = reader.GetString("user_adress"), user_telenum = reader.GetInt32("user_telenum") });
                             }
                             //JSONオブジェクトを文字列に変換
                             responseMessage = JsonConvert.SerializeObject(resultList);
@@ -281,7 +281,7 @@ namespace FunctionAPIApp
         {
 
             //HTTPレスポンスで返す文字列を定義
-            string responseMessage = "SELECT2 RESULT:";
+            string responseMessage = "SELECT5 RESULT:";
 
             //SERECT2用のパラメーター取得（GETメソッド用）
             string product_category = req.Query["product_category"];
@@ -337,10 +337,9 @@ namespace FunctionAPIApp
                                     //オブジェクトに結果を格納
                                     resultList.List.Add(new subsc_product_tableRow
                                     {
-                                        product_name = reader.GetString("product_name"),
+                                        
                                         product_category = reader.GetString("product_category"),
                                         product_gender = reader.GetString("product_gender"),
-                                        URL = reader.GetString("URL")
                                     });
                                 }
                                 //JSONオブジェクトを文字列に変換
