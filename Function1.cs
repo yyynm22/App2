@@ -187,10 +187,10 @@ namespace FunctionAPIApp
                                 //オブジェクトに結果を格納
                                 resultList.List.Add(new subsc_product_tableRow
                                 {
-                                    product_name = reader.GetString("product_name"),
+                                  
                                     product_category = reader.GetString("product_category"),
                                     product_gender = reader.GetString("product_gender"),
-                                    URL = reader.GetString("URL")
+                                    
                                 });
                             }
                             //JSONオブジェクトを文字列に変換
@@ -337,7 +337,7 @@ namespace FunctionAPIApp
                                     //オブジェクトに結果を格納
                                     resultList.List.Add(new subsc_product_tableRow
                                     {
-                                        
+
                                         product_category = reader.GetString("product_category"),
                                         product_gender = reader.GetString("product_gender"),
                                     });
