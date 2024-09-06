@@ -115,9 +115,6 @@ namespace FunctionAPIApp
         [JsonProperty("user_id")]
         public int user_id { get; set; }
 
-        [JsonProperty("product_name")]
-        public string product_name { get; set; }
-
         [JsonProperty("product_size")]
         public string product_size { get; set; }
 
