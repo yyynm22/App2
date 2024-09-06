@@ -1,153 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <title>App開発２</title>
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css'>
-    <link rel='stylesheet' href='https://unpkg.com/@mdi/font@6.x/css/materialdesignicons.min.css'>
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'>
-    <link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8">
+  <title>CodePen - Untitled</title>
+  <link rel="stylesheet" href="./style.css">
+
 </head>
 <body>
-    <!-- partial:index.partial.html -->
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Kids Sabsc(product)</title>
+  <link rel="stylesheet" href="css/product.css">
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css'>
+  <link rel='stylesheet' href='https://unpkg.com/@mdi/font@6.x/css/materialdesignicons.min.css'>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'>
+
+
+
+</head>
+<body>
     <!-- Vueで指定された"app"要素、この中でのみVueが有効 -->
     <div id="app">
         <v-app>
             <!-- ヘッダー -->
-            <v-app-bar app class="custom-font">
-                <v-toolbar-title>Your Favorite Fashion</v-toolbar-title>
-                <v-spacer></v-spacer>
+            <v-app-bar app class="custom-font" style="justify-content: space-between;" >
                 
-            </v-app-bar>
+                <v-btn v-on:click="addData"
+                  dark
+                  rounded
+                  class="custom-font"
+                  aria-label="ログアウト"
+                   title="ログアウト" >
+                 <v-icon start>
+                    mdi-logout
+                </v-icon>
+                  Logout
+                </v-btn>
 
-            <v-content>
-                <v-container>
+               
+
+                <v-toolbar-title  style="position: absolute; left: 50%; transform: translateX(-50%);">
+                    Kids Sabsc</v-toolbar-title>
+
+                <div style="display: flex; margin-left: auto;">
+                <v-btn v-on:click="dialog = true"
+                  dark
+                  rounded
+                  class="custom-font"
+                  style="margin-right: 16px;"
+                  aria-label="カート"
+                  title="カート">
+                  
+                 <v-icon start>
+                    mdi-cart
+                </v-icon>
+                </v-btn>
+
+                <v-btn v-on:click="addData" dark color="#f09199" rounded class="custom-font" 
+                title="マイページ" aria-label="マイページ" >
+                    <v-icon start>
+                      mdi-weather-night
+                    </v-icon>
+                    My page
+                  </v-btn>
+                </div>
+            </v-app-bar>
+           <v-dialog v-model="dialog" max-width="600px">
+        <v-card>
+          <v-card-title>
+            カートの中身
+            <v-spacer></v-spacer>
+            <v-btn icon @click="dialog = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-card-title>
+          <v-card-text>
+            <v-list>
+              <v-list-item v-for="(item, index) in cartItems" :key="index">
+                <v-list-item-content>
+                  <v-list-item-title>{{ item.name }}</v-list-item-title>
+                  <v-list-item-subtitle>{{ item.price }}円</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" text @click="dialog = false">閉じる</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+            
+                <template>
+                    <v-main>
+                        <v-container>
+                            <v-row class="d-flex justify-center align-center" style="width: 100%;">
+                                <v-col
+                                cols="12"
+                                sm="6"
+                                md="3"
+                                >
+                                <v-select
+                              label="Category"
+                              solo
+                              :items="['Tops', 'Pants','Skirt']"
+                                ></v-select>
+                                </v-col>
+                                <v-col
+                                cols="12"
+                                sm="6"
+                                md="3"
+                                >
+                                <v-select
+                                label="Kids gender"
+                                solo
+                                :items="['Boy', 'Girl','All']"
+                                > </v-select>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-main>
+                </template>
+            </v-main>
                     
 
-                    <!--タブ-->
-                    <ul class="tab-group">
-                        <li class="tab tab-A is-active">Regist Your Favorite Fashions</li>
-                        <li class="tab tab-B " v-btn v-on:click="readData">Check The Fashions</li>
-                    </ul>
-
-                    <!--タブを切り替えて表示するコンテンツ-->
-                    <div class="panel-group">
-                        <div class="panel tab-A is-show">
-                            <v-row class="mb-3 mt-3" align="center" justify="center">
-                                <v-col cols="4">
-                                    <select id="temp-A" v-model:value="temperature" class="temperature">
-                                        <!-- 気温のオプション -->
-                                        <option value="">気温を選択してね</option>
-                                        <option value="0">0℃</option>
-                                        <option value="1">1℃</option>
-                                        <option value="2">2℃</option>
-                                        <option value="3">3℃</option>
-                                        <option value="4">4℃</option>
-                                        <option value="5">5℃</option>
-                                        <option value="6">6℃</option>
-                                        <option value="7">7℃</option>
-                                        <option value="8">8℃</option>
-                                        <option value="9">9℃</option>
-                                        <option value="10">10℃</option>
-                                        <option value="11">11℃</option>
-                                        <option value="12">12℃</option>
-                                        <option value="13">13℃</option>
-                                        <option value="14">14℃</option>
-                                        <option value="15">15℃</option>
-                                        <option value="16">16℃</option>
-                                        <option value="17">17℃</option>
-                                        <option value="18">18℃</option>
-                                        <option value="19">19℃</option>
-                                        <option value="20">20℃</option>
-                                        <option value="21">21℃</option>
-                                        <option value="22">22℃</option>
-                                        <option value="23">23℃</option>
-                                        <option value="24">24℃</option>
-                                        <option value="25">25℃</option>
-                                        <option value="26">26℃</option>
-                                        <option value="27">27℃</option>
-                                        <option value="28">28℃</option>
-                                        <option value="29">29℃</option>
-                                        <option value="30">30℃</option>
-                                        <option value="31">31℃</option>
-                                        <option value="32">32℃</option>
-                                        <option value="33">33℃</option>
-                                        <option value="34">34℃</option>
-                                        <option value="35">35℃</option>
-                                    </select>
-
-                                    <select id="temp-B" v-model:value="season" class="season">
-                                        <!-- 季節のオプション -->
-                                        <option value="">季節を選択してね</option>
-                                        <option value="春">春</option>
-                                        <option value="夏">夏</option>
-                                        <option value="秋">秋</option>
-                                        <option value="冬">冬</option>
-                                    </select>
-
-                                    <select id="temp-B" v-model:value="mark" class="mark">
-                                        <!-- お気に入り登録のオプション -->
-                                        <option value="">お気に入り登録</option>
-                                        <option value="-">NOmark</option>
-                                        <option value="♡">♡</option>
-                                        <option value="🌞">🌞</option>
-                                        <option value="☔">☔</option>
-                                        <option value="☁">☁</option>
-                                    </select>
-                                </v-col>
-
-                                <v-col cols="6">
-                                    <v-text-field class="ml-6 mr-6" v-model="dress" label="今日の服装ポイントを入力" placeholder="今日の服装ポイントを入力…" outlined></v-text-field>
-                                    <v-text-field class="ml-6 mr-6" v-model="dressURL" label="写真のURL" placeholder="写真URLの入力…" outlined></v-text-field>
-                                </v-col>
-                            </v-row>
-
-                            <v-row class="mb-3 mt-3" align="center" justify="center">
-                                <v-btn v-on:click="addData" dark big color="pink">
-                                    <v-icon left>mdi-content-save</v-icon>
-                                    保存
-                                </v-btn>
-
-                            </v-row>
-                        </div>
-
-                        <div class="panel tab-B">
-                            <v-row class="mb-3 mt-3" justify="center">
-                                <!-- Card Container for Fashion List -->
-                                <v-row class="fashion-list">
-                                    <v-col v-for="data in dataList" :key="data.id" cols="12" sm="4" md="4">
-                                        <v-card class="['mx-auto', 'my-3', { 'expand': data.isExpanded }]" max-width="344" style="min-height: 450px;" v-on:click="toggleExpand(data)">
-                                            <v-card-title>
-                                                <span class="headline"> {{data.mark}}</span>
-                                            </v-card-title>
-                                            <v-card-subtitle>
-                                                <span>Temperature: {{data.temperature}}</span><br>
-                                                <span>Season: {{data.season}}</span>
-                                            </v-card-subtitle>
-                                            <v-card-text>
-                                                <p>{{data.dress}}</p>
-                                            </v-card-text>
-                                            <v-card-actions>
-                                                <v-img :src="data.dressURL" height="200" contain></v-img>
-                                                <v-btn v-on:click="deleteData(data)" style="position: absolute; top: 8px; right: 8px;" small rounded>
-                                                    <v-icon>mdi-delete-forever</v-icon>
-                                                </v-btn>
-
-                                            </v-card-actions>
-                                        </v-card>
-                                    </v-col>
-                                </v-row>
-                            </v-row>
-                        </div>
-                    </div>
-                </v-container>
-            </v-content>
 
             <!-- フッター -->
             <v-footer app padless class="custom-font">
                 <v-col class="text-center" cols="12">
-                    © 2024 My Fashion App
+                    © 2024 TeamA
                 </v-col>
+                
+                <v-btn dark fab fixed bottom right large elevation-6 title="一番上にスクロール" aria-label="一番上にスクロール" color="#f09199">
+                    <v-icon>mdi-chevron-up</v-icon>
+                  </v-btn>
+                  
             </v-footer>
         </v-app>
     </div>
@@ -155,6 +144,11 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js'></script>
-    <script src="./script.js"></script>
+    <script src="js/product.js"></script>
+</body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
 </body>
 </html>
