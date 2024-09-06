@@ -392,7 +392,7 @@ namespace FunctionAPIApp
                     Console.WriteLine("=========================================\n");
 
                     //実行するクエリ
-                    String sql = "SELECT order_id, product_id, quantity FROM subsc_detail_table";
+                    String sql = "SELECT order_id, quantity FROM subsc_detail_table";
 
                     //SQL実行オブジェクトの初期化
                     using (SqlCommand command = new SqlCommand(sql, connection))
@@ -410,7 +410,7 @@ namespace FunctionAPIApp
                             while (reader.Read())
                             {
                                 //オブジェクトに結果を格納
-                                resultList.List.Add(new subsc_detail_tableRow { order_id = reader.GetInt32("order_id"), product_id = reader.GetInt32("product_id"), quantity = reader.GetInt32("quantity") });
+                                resultList.List.Add(new subsc_detail_tableRow { order_id = reader.GetInt32("order_id"), quantity = reader.GetInt32("quantity") });
                             }
                             //JSONオブジェクトを文字列に変換
                             responseMessage = JsonConvert.SerializeObject(resultList);
