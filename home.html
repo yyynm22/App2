@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App開発２</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@mdi/font@6.x/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+    <link rel="stylesheet" href="css./home.css">
+    <!--link rel="stylesheet" href="自分が設定したcssのフォルダ名/自分が設定したcssのファイル名"!-->
+</head>
+<body>
+    <!-- Vueで指定された"app"要素、この中でのみVueが有効 -->
+    <div id="app">
+        <v-app>
+            <!-- ヘッダー -->
+            <v-app-bar app class="custom-font">
+                <v-toolbar-title>Kids Sabsc</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn @click="addData" dark color="#3cb371" rounded class="custom-font">
+                    Login
+                    <v-icon start>mdi-pencil</v-icon>
+                </v-btn>
+            </v-app-bar>
+
+            <v-main>
+                <v-container>
+                    <div class="top-wrapper">
+                        <div class="container">
+                            <!-- コンテンツをここに追加 -->
+                        </div>
+                    </div>
+                </v-container>
+            </v-main>
+
+            <!-- フッター -->
+            <v-footer app padless class="custom-font">
+
+                <v-col class="text-center" cols="12">
+                    © 2024 TeamA
+                </v-col>
+                <v-col class="text-center" cols="12">
+                    <a href="https://example.com" class="footer-link">employee</a>
+                </v-col>
+            </v-footer>
+        </v-app>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"></script>
+    <script src="js./home.js"></script>
+    <!-- cript src="自分が設定したJSのフォルダ名/自分が設定したJSのファイル名"></script -->
+</body>
+</html>
