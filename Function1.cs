@@ -273,85 +273,91 @@ namespace FunctionAPIApp
         }
 
 
-        //商品テーブル（検索）
+        // 商品テーブル（検索）
         [FunctionName("SELECT5")]
         public static async Task<IActionResult> Run5(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
 
-            //HTTPレスポンスで返す文字列を定義
+            // HTTPレスポンスで返す文字列を定義
             string responseMessage = "SELECT5 RESULT:";
 
-            //SERECT2用のパラメーター取得（GETメソッド用）
+            // SELECT5用のパラメーター取得（GETメソッド用）
             string product_category = req.Query["product_category"];
             string product_gender = req.Query["product_gender"];
 
-            //SERECT2用のパラメーター取得（POSTメソッド用）
+            // SELECT5用のパラメーター取得（POSTメソッド用）
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             product_category = product_category ?? data?.product_category;
             product_gender = product_gender ?? data?.product_gender;
 
-
-            //両パラメーターを取得できた場合のみ処理
+            // 両パラメーターを取得できた場合のみ処理
             if (!string.IsNullOrWhiteSpace(product_category) && !string.IsNullOrWhiteSpace(product_gender))
             {
                 try
                 {
-                    //DB接続文字列の設定
+                    // DB接続文字列の設定
                     SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
                     builder.DataSource = "m3hminagawafunction.database.windows.net";
                     builder.UserID = "sqladmin";
                     builder.Password = "Ynm004063";
                     builder.InitialCatalog = "m3h-minagawa-fanctionDB";
 
-                    //接続用オブジェクトの初期化
+                    // 接続用オブジェクトの初期化
                     using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                     {
                         Console.WriteLine("\nQuery data example:");
                         Console.WriteLine("=========================================\n");
 
-                        //実行するクエリ
+                        // 実行するクエリ
                         String sql = "SELECT * FROM subsc_product_table WHERE product_category LIKE @product_category AND product_gender LIKE @product_gender";
 
-                        //SQL実行オブジェクトの初期化
+                        // SQL実行オブジェクトの初期化
                         using (SqlCommand command = new SqlCommand(sql, connection))
                         {
-                            //パラメーターを設定
+                            // パラメーターを設定
                             command.Parameters.AddWithValue("@product_category", "%" + product_category + "%");
                             command.Parameters.AddWithValue("@product_gender", "%" + product_gender + "%");
 
-                            //DBと接続
+                            // DBと接続
                             connection.Open();
 
-                            //SQLを実行し、結果をオブジェクトに格納
+                            // SQLを実行し、結果をオブジェクトに格納
                             using (SqlDataReader reader = command.ExecuteReader())
                             {
-                                //結果を格納するためのオブジェクトを初期化
+                                // 結果を格納するためのオブジェクトを初期化
                                 subsc_product_tableList resultList = new subsc_product_tableList();
 
-                                //結果を1行ずつ処理
+                                // 列インデックスの取得
+                                int categoryIndex = reader.GetOrdinal("product_category");
+                                int genderIndex = reader.GetOrdinal("product_gender");
+                                int nameIndex = reader.GetOrdinal("product_name");
+                                int urlIndex = reader.GetOrdinal("URL");
+
+                                // 結果を1行ずつ処理
                                 while (reader.Read())
                                 {
-                                    //オブジェクトに結果を格納
+                                    // オブジェクトに結果を格納
                                     resultList.List.Add(new subsc_product_tableRow
                                     {
-
-                                        product_category = reader.GetString("product_category"),
-                                        product_gender = reader.GetString("product_gender"),
+                                        product_name = reader.IsDBNull(nameIndex) ? null : reader.GetString(nameIndex),
+                                        product_category = reader.IsDBNull(categoryIndex) ? null : reader.GetString(categoryIndex),
+                                        product_gender = reader.IsDBNull(genderIndex) ? null : reader.GetString(genderIndex),
+                                        URL = reader.IsDBNull(urlIndex) ? null : reader.GetString(urlIndex)
                                     });
                                 }
-                                //JSONオブジェクトを文字列に変換
+                                // JSONオブジェクトを文字列に変換
                                 responseMessage = JsonConvert.SerializeObject(resultList);
                             }
                         }
                     }
                 }
-                //DB操作でエラーが発生した場合はここでキャッチ
+                // DB操作でエラーが発生した場合はここでキャッチ
                 catch (SqlException e)
                 {
-                    //エラーをコンソールに出力
+                    // エラーをコンソールに出力
                     Console.WriteLine(e.ToString());
                 }
             }
@@ -360,7 +366,7 @@ namespace FunctionAPIApp
                 responseMessage = "パラメーターが設定されていません";
             }
 
-            //HTTPレスポンスを返却
+            // HTTPレスポンスを返却
             return new OkObjectResult(responseMessage);
         }
 
