@@ -38,5 +38,8 @@ new Vue({
     mounted() {
         // マウント時にユーザーデータを取得
         this.fetchUserData();
+
+        // methods をコンソールに表示（Vue インスタンスのスコープ内で実行）
+        console.log('Methods in Vue instance:', this.$options.methods);
     },
 });
