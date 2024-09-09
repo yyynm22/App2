@@ -42,21 +42,19 @@
                         <v-tab-item>
                             <v-card flat>
                                 <v-card-text class="centered-content">
-<v-row 
-    class="mb-3 mt-3"
-    justify="center"
-    v-for="data in dataList"
-    :key="data.user_id"
->
-    <v-col cols="12">
-        <div>ID: {{ data.user_id }}</div>
-        <div>名前: {{ data.user_name }}</div>
-        <div>パスワード: {{ data.user_pass }}</div>
-        <div>郵便番号: {{ data.user_postcode }}</div>
-        <div>住所: {{ data.user_adress }}</div>
-        <div>電話番号: {{ data.user_telenum }}</div>
-    </v-col>
-</v-row>
+                                    <v-row 
+                                        class="mb-3 mt-3"
+                                        justify="center"
+                                    >
+                                        <v-col cols="12">
+                                            <div>ID: {{ userData.user_id }}</div>
+                                            <div>名前: {{ userData.user_name }}</div>
+                                            <div>パスワード: {{ userData.user_pass }}</div>
+                                            <div>郵便番号: {{ userData.user_postcode }}</div>
+                                            <div>住所: {{ userData.user_adress }}</div>
+                                            <div>電話番号: {{ userData.user_telenum }}</div>
+                                        </v-col>
+                                    </v-row>
                                 </v-card-text>
                             </v-card>
                         </v-tab-item>
