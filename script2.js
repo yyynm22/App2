@@ -16,16 +16,19 @@ new Vue({
     },
     methods: {
         fetchUserData() {
-            // sessionStorageからユーザー情報を取得
-            this.userData.user_name = sessionStorage.getItem('user_name');
-            this.userData.user_pass = sessionStorage.getItem('user_pass');
-            this.userData.user_mail = sessionStorage.getItem('user_mail');
-            this.userData.user_postcode = sessionStorage.getItem('user_postcode');
-            this.userData.user_adress = sessionStorage.getItem('user_adress');
-            this.userData.user_telenum = sessionStorage.getItem('user_telenum');
+            // sessionStorageからユーザー情報を取得し、存在するか確認する
+            this.userData.user_name = sessionStorage.getItem('user_name') || '';
+            this.userData.user_pass = sessionStorage.getItem('user_pass') || '';
+            this.userData.user_mail = sessionStorage.getItem('user_mail') || '';
+            this.userData.user_postcode = sessionStorage.getItem('user_postcode') || '';
+            this.userData.user_adress = sessionStorage.getItem('user_adress') || '';
+            this.userData.user_telenum = sessionStorage.getItem('user_telenum') || '';
             
-            // 任意でuser_idを設定（ここでは例としてメールアドレスを使用）
-            this.userData.user_id = sessionStorage.getItem('user_mail'); 
+            // 任意でuser_idを設定（ここではメールアドレスを使用）
+            this.userData.user_id = sessionStorage.getItem('user_mail') || '';
+
+            // 取得したデータをコンソールで確認
+            console.log('User Data:', this.userData);
         },
         addData() {
             //商品の検索画面に遷移
