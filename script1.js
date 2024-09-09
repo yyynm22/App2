@@ -26,7 +26,12 @@ const app = new Vue({
   window.location.href = '/index.html';
         // ボタンのクリックイベントを処理する関数（必要に応じて追加）
       },
+      
       readData1: async function () {
+      console.log("Category: ", this.Category);
+      console.log("Kidsgender: ", this.Kidsgender);
+  
+      
 if (!this.Category || !this.Kidsgender) {
   console.log("CategoryまたはKidsgenderが入力されていません");
   return;
