@@ -141,73 +141,80 @@ namespace FunctionAPIApp
         }
 
 
-        //商品テーブル
+        /// 商品テーブル（検索）
         [FunctionName("SELECT3")]
         public static async Task<IActionResult> Run3(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
 
-            //レスポンス用文字列
+            // レスポンス用文字列
             string responseMessage = "SQL RESULT:";
 
             try
             {
-                //接続文字列の設定
+                // 接続文字列の設定
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
                 builder.DataSource = "m3hminagawafunction.database.windows.net";
                 builder.UserID = "sqladmin";
                 builder.Password = "Ynm004063";
                 builder.InitialCatalog = "m3h-minagawa-fanctionDB";
 
-                //接続用オブジェクトの初期化
+                // 接続用オブジェクトの初期化
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
                     Console.WriteLine("\nQuery data example:");
                     Console.WriteLine("=========================================\n");
 
-                    //実行するクエリ
+                    // 実行するクエリ
                     String sql = "SELECT product_name, product_category, product_gender, URL FROM subsc_product_table";
 
-                    //SQL実行オブジェクトの初期化
+                    // SQL実行オブジェクトの初期化
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
-                        //DBと接続
+                        // DBと接続
                         connection.Open();
 
-                        //SQLを実行し、結果をオブジェクトに格納
+                        // SQLを実行し、結果をオブジェクトに格納
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            //結果を格納するためのオブジェクトを初期化
+                            // 結果を格納するためのオブジェクトを初期化
                             subsc_product_tableList resultList = new subsc_product_tableList();
 
-                            //結果を1行ずつ処理
+                            // 列インデックスの取得
+                            int nameIndex = reader.GetOrdinal("product_name");
+                            int categoryIndex = reader.GetOrdinal("product_category");
+                            int genderIndex = reader.GetOrdinal("product_gender");
+                            int urlIndex = reader.GetOrdinal("URL");
+
+                            // 結果を1行ずつ処理
                             while (reader.Read())
                             {
-                                //オブジェクトに結果を格納
+                                // オブジェクトに結果を格納
                                 resultList.List.Add(new subsc_product_tableRow
                                 {
-
-                                    product_category = reader.GetString("product_category"),
-                                    product_gender = reader.GetString("product_gender"),
-
+                                    product_name = reader.IsDBNull(nameIndex) ? null : reader.GetString(nameIndex),
+                                    product_category = reader.IsDBNull(categoryIndex) ? null : reader.GetString(categoryIndex),
+                                    product_gender = reader.IsDBNull(genderIndex) ? null : reader.GetString(genderIndex),
+                                    URL = reader.IsDBNull(urlIndex) ? null : reader.GetString(urlIndex)
                                 });
                             }
-                            //JSONオブジェクトを文字列に変換
+                            // JSONオブジェクトを文字列に変換
                             responseMessage = JsonConvert.SerializeObject(resultList);
                         }
                     }
                 }
             }
-            //DB操作でエラーが発生した場合はここでキャッチ
+            // DB操作でエラーが発生した場合はここでキャッチ
             catch (SqlException e)
             {
-                //エラーをコンソールに出力
+                // エラーをコンソールに出力
                 Console.WriteLine(e.ToString());
             }
-            //結果文字列を返却
+            // 結果文字列を返却
             return new OkObjectResult(responseMessage);
         }
+
 
 
         //注文カートテーブル（一覧）
