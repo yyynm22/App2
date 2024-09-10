@@ -423,7 +423,7 @@ namespace FunctionAPIApp
                             while (reader.Read())
                             {
                                 //オブジェクトに結果を格納
-                                resultList.List.Add(new subsc_detail_tableRow { order_id = reader.GetInt32("order_id"), quantity = reader.GetInt32("quantity") });
+                                resultList.List.Add(new subsc_detail_tableRow { order_id = reader.GetInt32("order_id"),});
                             }
                             //JSONオブジェクトを文字列に変換
                             responseMessage = JsonConvert.SerializeObject(resultList);
@@ -526,7 +526,7 @@ namespace FunctionAPIApp
             return new OkObjectResult(responseMessage);
         }
 
-　　　　 //カートINSERT
+        //カートINSERT
         [FunctionName("INSERT2")]
         public static async Task<IActionResult> RunInsert2(
   [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
@@ -624,16 +624,16 @@ namespace FunctionAPIApp
 
             //インサート用のパラメーター取得（GETメソッド用）
             string order_id = req.Query["order_id"];
-       
+
 
             //インサート用のパラメーター取得（POSTメソッド用）
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             order_id = order_id ?? data?.order_id;
-    
+
 
             //両パラメーターを取得できた場合のみ処理
-            if (!string.IsNullOrWhiteSpace(order_id) )
+            if (!string.IsNullOrWhiteSpace(order_id))
             {
                 try
                 {
