@@ -56,6 +56,8 @@ namespace FunctionAPIApp
     [JsonObject]
     public class subsc_user_tableRow
     {
+        [JsonProperty("user_id")]
+        public int user_id { get; set; }
 
         [JsonProperty("user_name")]
         public string user_name { get; set; }
