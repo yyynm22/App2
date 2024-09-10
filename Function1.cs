@@ -41,7 +41,7 @@ namespace FunctionAPIApp
                     Console.WriteLine("=========================================\n");
 
                     //実行するクエリ
-                    String sql = "SELECT user_name, user_pass, user_mail, user_postcode, user_adress, user_telenum FROM subsc_user_table";
+                    String sql = "SELECT user_id, user_name, user_pass, user_mail, user_postcode, user_adress, user_telenum FROM subsc_user_table";
 
                     //SQL実行オブジェクトの初期化
                     using (SqlCommand command = new SqlCommand(sql, connection))
@@ -59,7 +59,7 @@ namespace FunctionAPIApp
                             while (reader.Read())
                             {
                                 //オブジェクトに結果を格納
-                                resultList.List.Add(new subsc_user_tableRow { user_name = reader.GetString("user_name"), user_pass = reader.GetString("user_pass"), user_mail = reader.GetString("user_mail"), user_postcode = reader.GetInt32("user_postcode"), user_adress = reader.GetString("user_adress"), user_telenum = reader.GetInt32("user_telenum") });
+                                resultList.List.Add(new subsc_user_tableRow { user_id = reader.GetInt32("user_id"), user_name = reader.GetString("user_name"), user_pass = reader.GetString("user_pass"), user_mail = reader.GetString("user_mail"), user_postcode = reader.GetInt32("user_postcode"), user_adress = reader.GetString("user_adress"), user_telenum = reader.GetInt32("user_telenum") });
                             }
                             //JSONオブジェクトを文字列に変換
                             responseMessage = JsonConvert.SerializeObject(resultList);
@@ -423,7 +423,7 @@ namespace FunctionAPIApp
                             while (reader.Read())
                             {
                                 //オブジェクトに結果を格納
-                                resultList.List.Add(new subsc_detail_tableRow { order_id = reader.GetInt32("order_id"),});
+                                resultList.List.Add(new subsc_detail_tableRow { order_id = reader.GetInt32("order_id"), });
                             }
                             //JSONオブジェクトを文字列に変換
                             responseMessage = JsonConvert.SerializeObject(resultList);
