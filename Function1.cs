@@ -405,7 +405,7 @@ namespace FunctionAPIApp
                     Console.WriteLine("=========================================\n");
 
                     //実行するクエリ
-                    String sql = "SELECT order_id, quantity FROM subsc_detail_table";
+                    String sql = "SELECT order_id FROM subsc_detail_table";
 
                     //SQL実行オブジェクトの初期化
                     using (SqlCommand command = new SqlCommand(sql, connection))
