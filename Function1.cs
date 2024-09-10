@@ -633,7 +633,7 @@ namespace FunctionAPIApp
     
 
             //両パラメーターを取得できた場合のみ処理
-            if (!string.IsNullOrWhiteSpace(order_id) && !string.IsNullOrWhiteSpace(quantity))
+            if (!string.IsNullOrWhiteSpace(order_id) )
             {
                 try
                 {
