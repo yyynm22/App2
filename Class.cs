@@ -93,6 +93,8 @@ namespace FunctionAPIApp
 
     public class subsc_product_tableRow
     {
+        [JsonProperty("product_id")]
+        public int? product_id { get; set; }
 
         [JsonProperty("product_name")]
         public string product_name { get; set; }
