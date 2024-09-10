@@ -141,13 +141,12 @@ namespace FunctionAPIApp
         }
 
 
-        /// 商品テーブル（検索）
+        /// 商品テーブル（一覧）
         [FunctionName("SELECT3")]
         public static async Task<IActionResult> Run3(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-
             // レスポンス用文字列
             string responseMessage = "SQL RESULT:";
 
@@ -166,8 +165,8 @@ namespace FunctionAPIApp
                     Console.WriteLine("\nQuery data example:");
                     Console.WriteLine("=========================================\n");
 
-                    // 実行するクエリ
-                    String sql = "SELECT product_name, product_category, product_gender, URL FROM subsc_product_table";
+                    // 実行するクエリにproduct_idを追加
+                    String sql = "SELECT product_id, product_name, product_category, product_gender, URL FROM subsc_product_table";
 
                     // SQL実行オブジェクトの初期化
                     using (SqlCommand command = new SqlCommand(sql, connection))
@@ -182,6 +181,7 @@ namespace FunctionAPIApp
                             subsc_product_tableList resultList = new subsc_product_tableList();
 
                             // 列インデックスの取得
+                            int idIndex = reader.GetOrdinal("product_id");
                             int nameIndex = reader.GetOrdinal("product_name");
                             int categoryIndex = reader.GetOrdinal("product_category");
                             int genderIndex = reader.GetOrdinal("product_gender");
@@ -193,6 +193,7 @@ namespace FunctionAPIApp
                                 // オブジェクトに結果を格納
                                 resultList.List.Add(new subsc_product_tableRow
                                 {
+                                    product_id = reader.IsDBNull(idIndex) ? (int?)null : (int?)reader.GetInt32(idIndex),
                                     product_name = reader.IsDBNull(nameIndex) ? null : reader.GetString(nameIndex),
                                     product_category = reader.IsDBNull(categoryIndex) ? null : reader.GetString(categoryIndex),
                                     product_gender = reader.IsDBNull(genderIndex) ? null : reader.GetString(genderIndex),
@@ -214,6 +215,7 @@ namespace FunctionAPIApp
             // 結果文字列を返却
             return new OkObjectResult(responseMessage);
         }
+
 
 
 
