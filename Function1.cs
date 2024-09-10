@@ -624,13 +624,13 @@ namespace FunctionAPIApp
 
             //インサート用のパラメーター取得（GETメソッド用）
             string order_id = req.Query["order_id"];
-            string quantity = req.Query["quantity"];
+       
 
             //インサート用のパラメーター取得（POSTメソッド用）
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             order_id = order_id ?? data?.order_id;
-            quantity = quantity ?? data?.quantity;
+    
 
             //両パラメーターを取得できた場合のみ処理
             if (!string.IsNullOrWhiteSpace(order_id) && !string.IsNullOrWhiteSpace(quantity))
@@ -650,14 +650,13 @@ namespace FunctionAPIApp
                     {
 
                         //実行するSQL（パラメーター付き）
-                        String sql = "INSERT INTO subsc_detail_table(order_id, quantity) VALUES(@order_id, @quantity)";
+                        String sql = "INSERT INTO subsc_detail_table(order_id) VALUES(@order_id)";
 
                         //SQLコマンドを初期化
                         using (SqlCommand command = new SqlCommand(sql, connection))
                         {
                             //パラメーターを設定
                             command.Parameters.AddWithValue("@order_id", int.Parse(order_id));
-                            command.Parameters.AddWithValue("@quantity", quantity);
 
                             //コネクションオープン（＝　SQLDatabaseに接続）
                             connection.Open();
