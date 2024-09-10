@@ -129,9 +129,6 @@ namespace FunctionAPIApp
         [JsonProperty("order_id")]
         public int order_id { get; set; }
 
-        [JsonProperty("quantity")]
-        public int quantity { get; set; }
-
     }
 
 
