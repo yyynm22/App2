@@ -876,7 +876,8 @@ public static async Task<IActionResult> Run7(
             //HTTPレスポンスで返す文字列を定義
             string responseMessage = "DELETE2 RESULT:";
 
-            //インサート用のパラメーター取得（GETメソッド用）product_id
+            //インサート用のパラメーター取得（GETメソッド用）
+            string product_id = req.Query["order_id"];
             string product_id = req.Query["product_id"];
             string user_id = req.Query["user_id"];
             string product_size = req.Query["product_size"];
@@ -885,13 +886,14 @@ public static async Task<IActionResult> Run7(
             //DELETE用のパラメーター取得（POSTメソッド用）
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
+            order_id = order_id ?? data?.order_id;
             product_id = product_id ?? data?.product_id;
             user_id = user_id ?? data?.user_id;
             product_size = product_size ?? data?.product_size;
             quantity = quantity ?? data?.quantity;
 
             //両パラメーターを取得できた場合のみ処理
-            if (!string.IsNullOrWhiteSpace(product_id) && !string.IsNullOrWhiteSpace(user_id) && !string.IsNullOrWhiteSpace(product_size) && !string.IsNullOrWhiteSpace(quantity))
+            if (!string.IsNullOrWhiteSpace(order_id) && !string.IsNullOrWhiteSpace(product_id) && !string.IsNullOrWhiteSpace(user_id) && !string.IsNullOrWhiteSpace(product_size) && !string.IsNullOrWhiteSpace(quantity))
             {
                 try
                 {
@@ -908,12 +910,13 @@ public static async Task<IActionResult> Run7(
                     {
 
                         //実行するSQL（パラメーター付き）
-                        String sql = "DELETE FROM  subsc_ordercart_table WHERE product_id LIKE @product_id AND user_id LIKE @user_id AND  product_size LIKE @product_size AND quantity LIKE @quantity";
+                        String sql = "DELETE FROM  subsc_ordercart_table WHERE order_id LIKE @order_id AND product_id LIKE @product_id AND user_id LIKE @user_id AND  product_size LIKE @product_size AND quantity LIKE @quantity";
 
                         //SQLコマンドを初期化
                         using (SqlCommand command = new SqlCommand(sql, connection))
                         {
                             //パラメーターを設定
+                            command.Parameters.AddWithValue("@order_id", int.Parse(order_id));
                             command.Parameters.AddWithValue("@product_id", int.Parse(product_id));
                             command.Parameters.AddWithValue("@user_id", int.Parse(user_id));
                             command.Parameters.AddWithValue("@product_size", product_size);
