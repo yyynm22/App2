@@ -877,7 +877,7 @@ public static async Task<IActionResult> Run7(
             string responseMessage = "DELETE2 RESULT:";
 
             //インサート用のパラメーター取得（GETメソッド用）
-            string product_id = req.Query["order_id"];
+            string order_id = req.Query["order_id"];
             string product_id = req.Query["product_id"];
             string user_id = req.Query["user_id"];
             string product_size = req.Query["product_size"];
