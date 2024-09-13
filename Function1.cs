@@ -380,174 +380,174 @@ namespace FunctionAPIApp
         }
 
 
-//注文詳細テーブル
-[FunctionName("SELECT6")]
-public static async Task<IActionResult> Run6(
-    [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
-    ILogger log)
-{
-    //レスポンス用文字列
-    string responseMessage = "SQL RESULT:";
-
-    try
-    {
-        // クエリパラメータから user_id を取得
-        string userId = req.Query["user_id"];
-
-        if (string.IsNullOrEmpty(userId))
+        //注文詳細テーブル
+        [FunctionName("SELECT6")]
+        public static async Task<IActionResult> Run6(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+            ILogger log)
         {
-            return new BadRequestObjectResult("user_id is required");
-        }
+            //レスポンス用文字列
+            string responseMessage = "SQL RESULT:";
 
-        //接続文字列の設定
-        SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-        builder.DataSource = "m3hminagawafunction.database.windows.net";
-        builder.UserID = "sqladmin";
-        builder.Password = "Ynm004063";
-        builder.InitialCatalog = "m3h-minagawa-fanctionDB";
-
-        //接続用オブジェクトの初期化
-        using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-        {
-            Console.WriteLine("\nQuery data example:");
-            Console.WriteLine("=========================================\n");
-
-            //実行するクエリ。user_id でフィルタリング
-            String sql = "SELECT order_id, product_id, user_id, product_size, quantity FROM subsc_detail_table WHERE user_id = @user_id";
-
-            //SQL実行オブジェクトの初期化
-            using (SqlCommand command = new SqlCommand(sql, connection))
+            try
             {
-                // パラメータの追加
-                command.Parameters.AddWithValue("@user_id", userId);
+                // クエリパラメータから user_id を取得
+                string userId = req.Query["user_id"];
 
-                //DBと接続
-                connection.Open();
-
-                //SQLを実行し、結果をオブジェクトに格納
-                using (SqlDataReader reader = command.ExecuteReader())
+                if (string.IsNullOrEmpty(userId))
                 {
-                    //結果を格納するためのオブジェクトを初期化
-                    subsc_detail_tableList resultList = new subsc_detail_tableList();
+                    return new BadRequestObjectResult("user_id is required");
+                }
 
-                    //結果を1行ずつ処理
-                    while (reader.Read())
+                //接続文字列の設定
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "m3hminagawafunction.database.windows.net";
+                builder.UserID = "sqladmin";
+                builder.Password = "Ynm004063";
+                builder.InitialCatalog = "m3h-minagawa-fanctionDB";
+
+                //接続用オブジェクトの初期化
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    Console.WriteLine("\nQuery data example:");
+                    Console.WriteLine("=========================================\n");
+
+                    //実行するクエリ。user_id でフィルタリング
+                    String sql = "SELECT order_id, product_id, user_id, product_size, quantity FROM subsc_detail_table WHERE user_id = @user_id";
+
+                    //SQL実行オブジェクトの初期化
+                    using (SqlCommand command = new SqlCommand(sql, connection))
                     {
-                        //オブジェクトに結果を格納
-                        resultList.List.Add(new subsc_detail_tableRow
+                        // パラメータの追加
+                        command.Parameters.AddWithValue("@user_id", userId);
+
+                        //DBと接続
+                        connection.Open();
+
+                        //SQLを実行し、結果をオブジェクトに格納
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            order_id = reader.GetInt32(reader.GetOrdinal("order_id")),
-                            product_id = reader.GetInt32(reader.GetOrdinal("product_id")),
-                            user_id = reader.GetInt32(reader.GetOrdinal("user_id")),
-                            product_size = reader.GetString(reader.GetOrdinal("product_size")),
-                            quantity = reader.GetInt32(reader.GetOrdinal("quantity"))
-                        });
+                            //結果を格納するためのオブジェクトを初期化
+                            subsc_detail_tableList resultList = new subsc_detail_tableList();
+
+                            //結果を1行ずつ処理
+                            while (reader.Read())
+                            {
+                                //オブジェクトに結果を格納
+                                resultList.List.Add(new subsc_detail_tableRow
+                                {
+                                    order_id = reader.GetInt32(reader.GetOrdinal("order_id")),
+                                    product_id = reader.GetInt32(reader.GetOrdinal("product_id")),
+                                    user_id = reader.GetInt32(reader.GetOrdinal("user_id")),
+                                    product_size = reader.GetString(reader.GetOrdinal("product_size")),
+                                    quantity = reader.GetInt32(reader.GetOrdinal("quantity"))
+                                });
+                            }
+                            //JSONオブジェクトを文字列に変換
+                            responseMessage = JsonConvert.SerializeObject(resultList);
+                        }
                     }
-                    //JSONオブジェクトを文字列に変換
-                    responseMessage = JsonConvert.SerializeObject(resultList);
                 }
             }
+            //DB操作でエラーが発生した場合はここでキャッチ
+            catch (SqlException e)
+            {
+                //エラーをコンソールに出力
+                Console.WriteLine(e.ToString());
+            }
+            //結果文字列を返却
+            return new OkObjectResult(responseMessage);
         }
-    }
-    //DB操作でエラーが発生した場合はここでキャッチ
-    catch (SqlException e)
-    {
-        //エラーをコンソールに出力
-        Console.WriteLine(e.ToString());
-    }
-    //結果文字列を返却
-    return new OkObjectResult(responseMessage);
-}
 
 
         //商品カートテーブル（検索）
 
 
-[FunctionName("SELECT7")]
-public static async Task<IActionResult> Run7(
-    [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
-    ILogger log)
-{
-
-    //HTTPレスポンスで返す文字列を定義
-    string responseMessage = "SELECT7 RESULT:";
-
-    //SERECT2用のパラメーター取得（GETメソッド用）
-    string product_id = req.Query["product_id"];
-
-    //SERECT2用のパラメーター取得（POSTメソッド用）
-    string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-    dynamic data = JsonConvert.DeserializeObject(requestBody);
-    product_id = product_id ?? data?.product_id;
-
-
-    //両パラメーターを取得できた場合のみ処理
-    if (!string.IsNullOrWhiteSpace(product_id))
-    {
-        try
+        [FunctionName("SELECT7")]
+        public static async Task<IActionResult> Run7(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+            ILogger log)
         {
 
-            //接続文字列の設定
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "m3hminagawafunction.database.windows.net";
-            builder.UserID = "sqladmin";
-            builder.Password = "Ynm004063";
-            builder.InitialCatalog = "m3h-minagawa-fanctionDB";
+            //HTTPレスポンスで返す文字列を定義
+            string responseMessage = "SELECT7 RESULT:";
 
-            //接続用オブジェクトの初期化
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            //SERECT2用のパラメーター取得（GETメソッド用）
+            string product_id = req.Query["product_id"];
+
+            //SERECT2用のパラメーター取得（POSTメソッド用）
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            product_id = product_id ?? data?.product_id;
+
+
+            //両パラメーターを取得できた場合のみ処理
+            if (!string.IsNullOrWhiteSpace(product_id))
             {
-                Console.WriteLine("\nQuery data example:");
-                Console.WriteLine("=========================================\n");
-
-
-                //実行するクエリ
-                String sql = "SELECT * FROM subsc_product_table WHERE product_id LIKE @product_id";
-
-                //SQL実行オブジェクトの初期化
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                try
                 {
-                    //パラメーターを設定
-                    command.Parameters.AddWithValue("@product_id", "%" + product_id + "%");
 
-                    //DBと接続
-                    connection.Open();
+                    //接続文字列の設定
+                    SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                    builder.DataSource = "m3hminagawafunction.database.windows.net";
+                    builder.UserID = "sqladmin";
+                    builder.Password = "Ynm004063";
+                    builder.InitialCatalog = "m3h-minagawa-fanctionDB";
 
-                    //SQLを実行し、結果をオブジェクトに格納
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    //接続用オブジェクトの初期化
+                    using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                     {
-                        //結果を格納するためのオブジェクトを初期化
-                        subsc_product_tableList resultList = new subsc_product_tableList();
+                        Console.WriteLine("\nQuery data example:");
+                        Console.WriteLine("=========================================\n");
 
-                        //結果を1行ずつ処理
-                        while (reader.Read())
+
+                        //実行するクエリ
+                        String sql = "SELECT * FROM subsc_product_table WHERE product_id LIKE @product_id";
+
+                        //SQL実行オブジェクトの初期化
+                        using (SqlCommand command = new SqlCommand(sql, connection))
                         {
-                            //オブジェクトに結果を格納
-                            resultList.List.Add(new subsc_product_tableRow { product_id = reader.GetInt32("product_id"), product_name = reader.GetString(" product_name"), product_category = reader.GetString("product_category"), product_gender = reader.GetString(" product_gender"), URL = reader.GetString(" URL") });
+                            //パラメーターを設定
+                            command.Parameters.AddWithValue("@product_id", "%" + product_id + "%");
+
+                            //DBと接続
+                            connection.Open();
+
+                            //SQLを実行し、結果をオブジェクトに格納
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                //結果を格納するためのオブジェクトを初期化
+                                subsc_product_tableList resultList = new subsc_product_tableList();
+
+                                //結果を1行ずつ処理
+                                while (reader.Read())
+                                {
+                                    //オブジェクトに結果を格納
+                                    resultList.List.Add(new subsc_product_tableRow { product_id = reader.GetInt32("product_id"), product_name = reader.GetString(" product_name"), product_category = reader.GetString("product_category"), product_gender = reader.GetString(" product_gender"), URL = reader.GetString(" URL") });
+                                }
+                                //JSONオブジェクトを文字列に変換
+                                responseMessage = JsonConvert.SerializeObject(resultList);
+                            }
                         }
-                        //JSONオブジェクトを文字列に変換
-                        responseMessage = JsonConvert.SerializeObject(resultList);
                     }
                 }
+                //DB操作でエラーが発生した場合はここでキャッチ
+                catch (SqlException e)
+                {
+                    //エラーをコンソールに出力
+                    Console.WriteLine(e.ToString());
+                }
             }
-        }
-        //DB操作でエラーが発生した場合はここでキャッチ
-        catch (SqlException e)
-        {
-            //エラーをコンソールに出力
-            Console.WriteLine(e.ToString());
-        }
-    }
-    else
-    {
-        responseMessage = "パラメーターが設定されていません";
-    }
+            else
+            {
+                responseMessage = "パラメーターが設定されていません";
+            }
 
-    //HTTPレスポンスを返却
-    return new OkObjectResult(responseMessage);
+            //HTTPレスポンスを返却
+            return new OkObjectResult(responseMessage);
 
-}
-        
+        }
+
         //商品INSERT
         [FunctionName("INSERT1")]
         public static async Task<IActionResult> RunInsert1(
@@ -571,7 +571,7 @@ public static async Task<IActionResult> Run7(
             product_name = product_name ?? data?.product_name;
             product_category = product_category ?? data?.product_category;
             product_gender = product_gender ?? data?.product_gender;
-            URL = URL ?? data?.URLl;
+            URL = URL ?? data?.URL;
 
             //両パラメーターを取得できた場合のみ処理
             if (!string.IsNullOrWhiteSpace(product_name) && !string.IsNullOrWhiteSpace(product_category) && !string.IsNullOrWhiteSpace(product_gender) && !string.IsNullOrWhiteSpace(URL))
@@ -720,94 +720,94 @@ public static async Task<IActionResult> Run7(
             return new OkObjectResult(responseMessage);
         }
         //注文詳細テーブルINSERT
-[FunctionName("INSERT3")]
-public static async Task<IActionResult> RunInsert3(
-    [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
-    ILogger log)
-{
-    log.LogInformation("C# HTTP trigger function processed a request.");
-
-    //HTTPレスポンスで返す文字列を定義
-    string responseMessage = "INSERT3 RESULT:";
-
-    //インサート用のパラメーター取得（GETメソッド用）
-    string order_id = req.Query["order_id"];
-    string product_id = req.Query["product_id"];
-    string user_id = req.Query["user_id"];
-    string product_size = req.Query["product_size"];
-    string quantity = req.Query["quantity"];
-
-    //インサート用のパラメーター取得（POSTメソッド用）
-    string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-    dynamic data = JsonConvert.DeserializeObject(requestBody);
-    order_id = order_id ?? data?.order_id;
-    product_id = product_id ?? data?.product_id;
-    user_id = user_id ?? data?.user_id;
-    product_size = product_size ?? data?.product_size;
-    quantity = quantity ?? data?.quantity;
-
-    //両パラメーターを取得できた場合のみ処理
-    if (!string.IsNullOrWhiteSpace(order_id) &&
-        !string.IsNullOrWhiteSpace(product_id) &&
-        !string.IsNullOrWhiteSpace(user_id) &&
-        !string.IsNullOrWhiteSpace(product_size) &&
-        !string.IsNullOrWhiteSpace(quantity))
-    {
-        try
+        [FunctionName("INSERT3")]
+        public static async Task<IActionResult> RunInsert3(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+            ILogger log)
         {
-            //DB接続設定（接続文字列の構築）
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "m3hminagawafunction.database.windows.net";
-            builder.UserID = "sqladmin";
-            builder.Password = "Ynm004063";
-            builder.InitialCatalog = "m3h-minagawa-fanctionDB";
+            log.LogInformation("C# HTTP trigger function processed a request.");
 
-            //SQLコネクションを初期化
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            //HTTPレスポンスで返す文字列を定義
+            string responseMessage = "INSERT3 RESULT:";
+
+            //インサート用のパラメーター取得（GETメソッド用）
+            string order_id = req.Query["order_id"];
+            string product_id = req.Query["product_id"];
+            string user_id = req.Query["user_id"];
+            string product_size = req.Query["product_size"];
+            string quantity = req.Query["quantity"];
+
+            //インサート用のパラメーター取得（POSTメソッド用）
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            order_id = order_id ?? data?.order_id;
+            product_id = product_id ?? data?.product_id;
+            user_id = user_id ?? data?.user_id;
+            product_size = product_size ?? data?.product_size;
+            quantity = quantity ?? data?.quantity;
+
+            //両パラメーターを取得できた場合のみ処理
+            if (!string.IsNullOrWhiteSpace(order_id) &&
+                !string.IsNullOrWhiteSpace(product_id) &&
+                !string.IsNullOrWhiteSpace(user_id) &&
+                !string.IsNullOrWhiteSpace(product_size) &&
+                !string.IsNullOrWhiteSpace(quantity))
             {
-                //実行するSQL（パラメーター付き）
-                String sql = "INSERT INTO subsc_detail_table(order_id, product_id, user_id, product_size, quantity) " +
-                             "VALUES(@order_id, @product_id, @user_id, @product_size, @quantity)";
-
-                //SQLコマンドを初期化
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                try
                 {
-                    //パラメーターを設定
-                    command.Parameters.AddWithValue("@order_id", int.Parse(order_id));
-                    command.Parameters.AddWithValue("@product_id", int.Parse(product_id));
-                    command.Parameters.AddWithValue("@user_id", int.Parse(user_id));
-                    command.Parameters.AddWithValue("@product_size", product_size);
-                    command.Parameters.AddWithValue("@quantity", int.Parse(quantity));
+                    //DB接続設定（接続文字列の構築）
+                    SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                    builder.DataSource = "m3hminagawafunction.database.windows.net";
+                    builder.UserID = "sqladmin";
+                    builder.Password = "Ynm004063";
+                    builder.InitialCatalog = "m3h-minagawa-fanctionDB";
 
-                    //コネクションオープン（＝　SQLDatabaseに接続）
-                    connection.Open();
+                    //SQLコネクションを初期化
+                    using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                    {
+                        //実行するSQL（パラメーター付き）
+                        String sql = "INSERT INTO subsc_detail_table(order_id, product_id, user_id, product_size, quantity) " +
+                                     "VALUES(@order_id, @product_id, @user_id, @product_size, @quantity)";
 
-                    //SQLコマンドを実行し結果行数を取得
-                    int result = command.ExecuteNonQuery();
+                        //SQLコマンドを初期化
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            //パラメーターを設定
+                            command.Parameters.AddWithValue("@order_id", int.Parse(order_id));
+                            command.Parameters.AddWithValue("@product_id", int.Parse(product_id));
+                            command.Parameters.AddWithValue("@user_id", int.Parse(user_id));
+                            command.Parameters.AddWithValue("@product_size", product_size);
+                            command.Parameters.AddWithValue("@quantity", int.Parse(quantity));
 
-                    //レスポンス用にJSONオブジェクトに格納
-                    JObject jsonObj = new JObject { ["result"] = $"{result}行挿入されました" };
+                            //コネクションオープン（＝　SQLDatabaseに接続）
+                            connection.Open();
 
-                    //JSONオブジェクトを文字列に変換
-                    responseMessage = JsonConvert.SerializeObject(jsonObj, Formatting.None);
+                            //SQLコマンドを実行し結果行数を取得
+                            int result = command.ExecuteNonQuery();
+
+                            //レスポンス用にJSONオブジェクトに格納
+                            JObject jsonObj = new JObject { ["result"] = $"{result}行挿入されました" };
+
+                            //JSONオブジェクトを文字列に変換
+                            responseMessage = JsonConvert.SerializeObject(jsonObj, Formatting.None);
+                        }
+                    }
+                }
+                //DB処理でエラーが発生した場合
+                catch (SqlException e)
+                {
+                    //コンソールにエラーを出力
+                    Console.WriteLine(e.ToString());
                 }
             }
-        }
-        //DB処理でエラーが発生した場合
-        catch (SqlException e)
-        {
-            //コンソールにエラーを出力
-            Console.WriteLine(e.ToString());
-        }
-    }
-    else
-    {
-        responseMessage = "パラメーターが設定されていません";
-    }
+            else
+            {
+                responseMessage = "パラメーターが設定されていません";
+            }
 
-    //HTTPレスポンスを返却
-    return new OkObjectResult(responseMessage);
-}
+            //HTTPレスポンスを返却
+            return new OkObjectResult(responseMessage);
+        }
 
 
         //商品DELETE1
