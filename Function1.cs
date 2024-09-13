@@ -899,7 +899,6 @@ public static async Task<IActionResult> RunInsert3(
 
             //インサート用のパラメーター取得（GETメソッド用）
             string order_id = req.Query["order_id"];
-            string product_id = req.Query["product_id"];
             string user_id = req.Query["user_id"];
             string product_size = req.Query["product_size"];
             string quantity = req.Query["quantity"];
@@ -908,13 +907,15 @@ public static async Task<IActionResult> RunInsert3(
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             order_id = order_id ?? data?.order_id;
-            product_id = product_id ?? data?.product_id;
             user_id = user_id ?? data?.user_id;
             product_size = product_size ?? data?.product_size;
             quantity = quantity ?? data?.quantity;
 
+            // 複数のproduct_idを取得
+            List<int> product_ids = data?.product_ids?.ToObject<List<int>>() ?? new List<int>();
+
             //両パラメーターを取得できた場合のみ処理
-            if (!string.IsNullOrWhiteSpace(order_id) && !string.IsNullOrWhiteSpace(product_id) && !string.IsNullOrWhiteSpace(user_id) && !string.IsNullOrWhiteSpace(product_size) && !string.IsNullOrWhiteSpace(quantity))
+            if (!string.IsNullOrWhiteSpace(order_id) && product_ids.Count > 0 && !string.IsNullOrWhiteSpace(user_id) && !string.IsNullOrWhiteSpace(product_size) && !string.IsNullOrWhiteSpace(quantity))
             {
                 try
                 {
@@ -931,17 +932,26 @@ public static async Task<IActionResult> RunInsert3(
                     {
 
                         //実行するSQL（パラメーター付き）
-                        String sql = "DELETE FROM  subsc_ordercart_table WHERE order_id LIKE @order_id AND product_id LIKE @product_id AND user_id LIKE @user_id AND  product_size LIKE @product_size AND quantity LIKE @quantity";
+                        String sql = "DELETE FROM  subsc_ordercart_table WHERE order_id LIKE @order_id AND user_id LIKE @user_id AND  product_size LIKE @product_size AND quantity LIKE @quantity";
 
+                         // product_idsをSQLパラメーターに変換
+                string productIdsParam = string.Join(",", product_ids.Select((id, index) => $"@product_id{index}"));
+                sql = string.Format(sql, productIdsParam);
+                        
                         //SQLコマンドを初期化
                         using (SqlCommand command = new SqlCommand(sql, connection))
                         {
                             //パラメーターを設定
                             command.Parameters.AddWithValue("@order_id", int.Parse(order_id));
-                            command.Parameters.AddWithValue("@product_id", int.Parse(product_id));
                             command.Parameters.AddWithValue("@user_id", int.Parse(user_id));
                             command.Parameters.AddWithValue("@product_size", product_size);
                             command.Parameters.AddWithValue("@quantity", quantity);
+                            
+                            // product_idのパラメーターを追加
+                        for (int i = 0; i < product_ids.Count; i++)
+                        {
+                            command.Parameters.AddWithValue($"@product_id{i}", product_ids[i]);
+                        }
 
 
                             //コネクションオープン（＝　SQLDatabaseに接続）
