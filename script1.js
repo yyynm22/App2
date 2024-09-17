@@ -15,6 +15,7 @@ const app = new Vue({
       selectedQuantity: 1,  // 個数
       sizes: ['S', 'M', 'L', 'XL'],  // サイズのリスト
      user_id: '',  // ログインしているユーザーIDを保存
+     order_id: null,
     },
   
   mounted() {
@@ -76,67 +77,78 @@ filterData() {
 },
   
 readData3: async function () {
-    try {
-        // APIからデータを取得
-        const response = await axios.get('https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT4');
-        
-        // レスポンスデータの内容を確認
-        const cartitems = response.data;
-        console.log('API response:', cartitems);
+  try {
+      // APIからカートデータを取得
+      const response = await axios.get('https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT4');
+      
+      const cartitems = response.data;
+      console.log('API response:', cartitems);
 
-        // cartitemsがオブジェクトであり、Listプロパティを持つか確認
-        if (cartitems.List && Array.isArray(cartitems.List)) {
-            console.log('Cart items (List):', cartitems.List);
+      if (cartitems.List && Array.isArray(cartitems.List)) {
+          console.log('Cart items (List):', cartitems.List);
 
-            // user_idでカート内のユーザー情報を検索 (複数のアイテムを取得)
-            const userItems = cartitems.List.filter(item => item.user_id.toString().trim() === this.user_id.toString().trim());
-            if (userItems.length > 0) {
-                console.log('Found user items:', userItems);
-            } else {
-                console.log('User items not found');
-            }
+          // user_idでカート内のユーザー情報をフィルター
+          const userItems = cartitems.List.filter(item => item.user_id.toString().trim() === this.user_id.toString().trim());
+          if (userItems.length > 0) {
+              console.log('Found user items:', userItems);
+          } else {
+              console.log('User items not found');
+          }
 
-            // 新しいデータを処理
-            const newData = userItems.map(item => {
-                const existingItem = this.dataList3.find(oldItem => oldItem.product_id === item.product_id);
-                return existingItem ? { 
-                    ...item, 
-                    liked: existingItem.liked, 
-                    saved: existingItem.saved 
-                } : { 
-                    ...item, 
-                    liked: false, 
-                    saved: false 
-                };
-            });
+          // 新しいデータにマッピング
+          const newData = userItems.map(item => {
+              const existingItem = this.dataList3.find(oldItem => oldItem.product_id === item.product_id);
+              return existingItem ? { 
+                  ...item, 
+                  liked: existingItem.liked, 
+                  saved: existingItem.saved 
+              } : { 
+                  ...item, 
+                  liked: false, 
+                  saved: false 
+              };
+          });
 
-            // dataList3に新しいデータを反映
-            this.dataList3 = newData;
+          this.dataList3 = newData;
 
-            // userItemsからproduct_idのリストを作成
-            const productIds = userItems.map(item => item.product_id);
+          // product_id リストを作成
+          const productIds = userItems.map(item => item.product_id);
 
-            // product_idリストを用いてsubsc_product_tableから情報を取得
-            const productResponses = await Promise.all(productIds.map(productId =>
-                fetch(`https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT7?product_id=${productId}`)
-            ));
+          // 各 product_id に基づき商品情報を取得
+          const productResponses = await Promise.all(productIds.map(productId =>
+              axios.get(`https://m3h-yuunaminagawa.azurewebsites.net/api/SELECT7?product_id=${productId}`)
+          ));
 
-            const productData = await Promise.all(productResponses.map(res => res.json()));
-            console.log("Product data from subsc_product_table:", productData);
+          const productData = productResponses.map(res => res.data);
+          console.log("Product data from subsc_product_table:", productData);
 
-            // productDataを新しいデータに結合
-            this.dataList3 = this.dataList3.map(item => {
-                const productInfo = productData.find(p => p.product_id === item.product_id);
-                return productInfo ? { ...item, productInfo } : item;
-            });
+          // 商品データをカートアイテムに結合
+         this.dataList3 = this.dataList3.map(item => {
+  // productData の構造に合わせて、List の中から productInfo を探す
+  const productInfo = productData.flatMap(data => data.List).find(p => p.product_id === item.product_id);
 
-        } else {
-            console.error('Listプロパティが存在しないか、配列ではありません。');
-        }
-    } catch (error) {
-        console.error('データの取得に失敗しました:', error);
-    }
+  console.log("Product info for each item:", productInfo);
+  
+  return productInfo ? { 
+      ...item, 
+      product_name: productInfo.product_name,
+      product_category: productInfo.product_category,
+      product_gender: productInfo.product_gender,
+      URL: productInfo.URL
+  } : item;
+});
+
+
+
+
+      } else {
+          console.error('Listプロパティが存在しないか、配列ではありません。');
+      }
+  } catch (error) {
+      console.error('データの取得に失敗しました:', error);
+  }
 },
+
 
 
 
@@ -164,6 +176,7 @@ readData3: async function () {
         this.quantity = 1;
         this.dialog = true;
       },
+      
       
       // 商品をカートに追加
      addToCart: async function (selectedItem, selectedSize, selectedQuantity) {
@@ -197,6 +210,69 @@ readData3: async function () {
         console.error('APIリクエストに失敗しました:', error);
     }
 },
+  //注文確定
+  confirmOrder: async function() {
+     // カートが空か確認
+ if (!this.dataList3 || this.dataList3.length === 0) {
+        console.error("カートが空です");
+        return;
+  }
+
+
+    // 注文詳細を作成（order_idを追加）
+    const orderDetails = this.dataList3.map(item => ({
+      order_id: item.order_id,  // 各アイテムの元の order_id を使用
+      product_id: item.product_id,
+      user_id: this.user_id,
+      product_size: item.product_size,
+      quantity: item.quantity
+  }));
+
+    // デバッグログを追加
+    console.log("注文詳細:", orderDetails);
+
+  try {
+    // 各注文詳細をAPIに送信
+    for (const detail of orderDetails) {
+        const response = await axios.post('https://m3h-yuunaminagawa.azurewebsites.net/api/INSERT3', detail);
+        console.log("注文詳細が送信されました:", response.data);
+    }
+
+
+    // カートをクリア
+        this.dataList3 = [];
+        this.cartdialog = false;
+        console.log("カートがリセットされました");
+
+
+} catch (error) {
+    // エラーハンドリング
+    console.error("注文送信エラー:", error.message);
+    if (error.response) {
+        console.error("レスポンスエラー:", error.response.data);
+    } else if (error.request) {
+        console.error("リクエストエラー:", error.request);
+    } else {
+        console.error("設定エラー:", error.message);
+    }
+  }
+},      
+// order_idを生成または取得する関数の例
+generateOrderId: async function() {
+  try {
+      const response = await axios.get('https://m3h-yuunaminagawa.azurewebsites.net/api/GENERATE_ORDER_ID');
+      return response.data.order_id; // APIから取得したorder_idを返す
+  } catch (error) {
+      console.error("order_idの生成に失敗しました:", error);
+      throw error;
+  }
+},
+  
+  toggleLike: function (index, listType = 'dataList') {
+            const list = listType === 'dataList' ? this.dataList1 : this.dataList2;
+            list[index].liked = !list[index].liked;
+        },    
+
 
 
 
