@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kidssubsc</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@mdi/font@6.x/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+    <link rel="stylesheet" href="./style2.css">
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-app-bar app class="custom-font">
+                <!-- ログアウトボタン -->
+                <v-btn @click="Logout" dark rounded class="custom-font logout-btn" aria-label="ログアウト" title="ログアウト">
+                    <v-icon start>mdi-logout</v-icon>
+                    Logout
+                </v-btn>
+
+       <!-- HOMEボタン -->          
+<v-btn @click="addData" dark color="#f09199" rounded class="custom-font">
+    <v-icon start>mdi-home</v-icon>
+    Home
+</v-btn>
+            
+                <v-spacer></v-spacer>
+                <v-toolbar-title class="centered-title">Kids Sabsc</v-toolbar-title>
+                <v-spacer></v-spacer>
+            </v-app-bar>
+            
+            
+
+            <v-main>
+                <v-container>
+                    <!-- タブ -->
+                    <v-tabs
+                        v-model="tab"
+                        background-color="white"
+                        color="#f09199"
+                        align-tabs="center"
+                        class="custom-tabs"
+                    >
+                      
+                        <v-tab>注文詳細</v-tab>
+                    </v-tabs>
+
+                   
+<!-- 注文履歴タブ -->
+<v-tab-item>
+    <v-card flat>
+        <v-card-text class="centered-content">
+            <v-row class="mb-3 mt-3" justify="center" v-if="orderHistory.length">
+                <v-col cols="12">
+                    <v-list dense class="order-list">
+                        <v-list-item v-for="order in orderHistory" :key="order.order_id">
+                        <v-checkbox label="Checkbox"></v-checkbox>
+                            <v-list-item-content>
+                                <v-list-item-title>注文番号: {{ order.detail_id }}</v-list-item-title>
+                                <v-list-item-subtitle>注文者名: {{ order.total_quantity }}</v-list-item-subtitle>
+                                <v-list dense>
+                                    <v-list-item v-for="item in order.items" :key="item.product_id">
+                                        <v-img :src="item.product_image_url" alt="商品画像" max-width="100" class="mr-3"></v-img>
+                                        <v-list-item-content>
+      <v-list-item-title>商品名:{{ item.product_name }}</v-list-item-title>
+      <v-list-item-subtitle>商品ID: {{ item.product_id }}</v-list-item-subtitle>
+      <v-list-item-subtitle>サイズ: {{ item.product_size }}</v-list-item-subtitle>
+      <v-list-item-subtitle>個数: {{ item.quantity }}</v-list-item-subtitle>
+      <v-list-item-subtitle>メール: {{ item.user_mail }}</v-list-item-subtitle>
+      <v-list-item-subtitle>電話番号: {{ item.user_telenum }}</v-list-item-subtitle>
+      <v-list-item-subtitle>〒: {{ item.user_postcode }}</v-list-item-subtitle>
+      <v-list-item-subtitle>住所: {{ item.user_adress }}</v-list-item-subtitle>
+      
+                                          
+                                          　
+                                          
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-list>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+                </v-col>
+            </v-row>
+            <v-row justify="center" v-else>
+                <v-col cols="12">
+                    <p>注文履歴がありません。</p>
+                </v-col>
+            </v-row>
+        </v-card-text>
+    </v-card>
+</v-tab-item>
+
+                            </v-card>
+                        </v-tab-item>
+                    </v-tabs-items>
+                </v-container>
+            </v-main>
+
+            <v-footer app padless class="custom-font">
+                <v-col class="text-center" cols="12">
+                    © 2024 TeamA
+                </v-col>
+            </v-footer>
+        </v-app>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"></script>
+    <script src="./script2.js"></script>
+</body>
+
+</html>
