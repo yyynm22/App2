@@ -20,38 +20,50 @@ const app = new Vue({
   
   mounted() {
     
-    
         // コンポーネントがマウントされたときに sessionStorage から user_id を取得
         this.user_id = sessionStorage.getItem('user_id');
         console.log("ユーザーIDが sessionStorage から取得されました:", this.user_id);
     
     // ページ読み込み時に readData2 を呼び出し
     this.readData2();
+    
+    this.filterData(); // 初期表示時にもフィルタリング
     },
   
     methods: {
+      resetFilters() {
+    this.Category = '';  // カテゴリをリセット
+    this.Kidsgender = '';  // 性別フィルタをリセット
+  },
       
 filterData() {
   if (this.Category === '' && this.Kidsgender === '') {
     this.filteredList = this.dataList2;
   } else {
     this.filteredList = this.dataList2.filter(item => {
-      const matchesCategory = this.Category === '' || item.product_category === this.Category;
-      const matchesGender = this.Kidsgender === 'All' || item.product_gender === this.Kidsgender;
+       // Categoryが 'All' の場合、'All' として登録されているアイテムのみ表示
+    // Categoryが特定のカテゴリー（Tops, Bottomsなど）の場合、そのカテゴリーでフィルタリング
+    const matchesCategory = (this.Category === 'All')
+      ? item.product_category === 'All'
+      : (this.Category === '' || item.product_category === this.Category);
 
-      console.log("Item Category: ", item.product_category, "Matches Category: ", matchesCategory);
-      console.log("Item Gender: ", item.product_gender, "Matches Gender: ", matchesGender);
+    // Kidsgenderが 'All' の場合は性別フィルタを無視、特定の性別でフィルタリング
+    const matchesGender = this.Kidsgender === 'All' || this.Kidsgender === '' || item.product_gender === this.Kidsgender;
+
+    // デバッグ用のログ
+    console.log("Item Category: ", item.product_category, "Matches Category: ", matchesCategory);
+    console.log("Item Gender: ", item.product_gender, "Matches Gender: ", matchesGender);
 
       return matchesCategory && matchesGender;
     });
   }
-
-  console.log("Filtered List after search: ", this.filteredList);
 },
+      updateData() {
+    this.resetFilters();  // 検索条件をリセット
+    this.filterData();    // すべてのデータを再度表示
+  },
 
 
-
-      
       mypage() {
         // マイページ遷移
         window.location.href = '/index2.html';
@@ -137,10 +149,6 @@ readData3: async function () {
       URL: productInfo.URL
   } : item;
 });
-
-
-
-
       } else {
           console.error('Listプロパティが存在しないか、配列ではありません。');
       }
@@ -149,10 +157,7 @@ readData3: async function () {
   }
 },
 
-
-
-
-      
+     
       openCartDialog() {
       this.cartdialog = true;  // ダイアログを開く
       this.readData3();        // カートのデータを取得
@@ -166,8 +171,6 @@ readData3: async function () {
     }
   },
   
-
-
 
       // 商品を選択してダイアログを開く
       openDialog(item) {
@@ -283,6 +286,36 @@ generateOrderId: async function() {
       throw error;
   }
 },
+      
+deleteData: async function (item) {
+    if (!item) {  // itemが削除対象であるか確認
+        console.log("削除対象が見つかりません");
+        return;
+    }
+    
+    const deleteParams = {
+        order_id: item.order_id,
+        product_id: item.product_id,
+        user_id: item.user_id,
+        product_size: item.product_size,
+        quantity: item.quantity
+    };
+    
+    try {
+        const response = await axios.post('https://m3h-yuunaminagawa.azurewebsites.net/api/DELETE2', deleteParams);
+        console.log("削除成功:", response.data);
+
+        // 成功したらUI上でも削除を反映する処理を追加
+        this.dataList3 = this.dataList3.filter(i => i.order_id !== item.order_id);  // 削除したアイテムをリストから削除
+
+    } catch (error) {
+        console.error("削除に失敗しました:", error);
+    }
+},
+
+
+
+      
   
   toggleLike: function (index, listType = 'dataList') {
             const list = listType === 'dataList' ? this.dataList1 : this.dataList2;
