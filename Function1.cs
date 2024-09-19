@@ -59,7 +59,7 @@ namespace FunctionAPIApp
                             while (reader.Read())
                             {
                                 //オブジェクトに結果を格納
-                                resultList.List.Add(new subsc_user_tableRow { user_id = reader.GetInt32("user_id"), user_name = reader.GetString("user_name"), user_pass = reader.GetString("user_pass"), user_mail = reader.GetString("user_mail"), user_postcode = reader.GetInt32("user_postcode"), user_adress = reader.GetString("user_adress"), user_telenum = reader.GetInt32("user_telenum") });
+                                resultList.List.Add(new subsc_user_tableRow { user_id = reader.GetInt32("user_id"), user_name = reader.GetString("user_name"), user_pass = reader.GetString("user_pass"), user_mail = reader.GetString("user_mail"), user_postcode = reader.GetString("user_postcode"), user_adress = reader.GetString("user_adress"), user_telenum = reader.GetString("user_telenum") });
                             }
                             //JSONオブジェクトを文字列に変換
                             responseMessage = JsonConvert.SerializeObject(resultList);
@@ -555,12 +555,167 @@ namespace FunctionAPIApp
             return new OkObjectResult(responseMessage);
         }
 
+        [FunctionName("SELECT8")]
+        public static async Task<IActionResult> Run8(
+           [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+           ILogger log)
+        {
+
+            //レスポンス用文字列
+            string responseMessage = "SQL RESULT:";
+
+            try
+            {
+                //接続文字列の設定
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "m3hminagawafunction.database.windows.net";
+                builder.UserID = "sqladmin";
+                builder.Password = "Ynm004063";
+                builder.InitialCatalog = "m3h-minagawa-fanctionDB";
+
+                //接続用オブジェクトの初期化
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    Console.WriteLine("\nQuery data example:");
+                    Console.WriteLine("=========================================\n");
+
+                    //実行するクエリ
+                    String sql = "SELECT order_id, user_id, product_size, quantity, product_id FROM subsc_detail_table quantity ";
+
+                    //SQL実行オブジェクトの初期化
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        //DBと接続
+                        connection.Open();
+
+                        //SQLを実行し、結果をオブジェクトに格納
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            //結果を格納するためのオブジェクトを初期化
+                            subsc_detail_tableList resultList = new subsc_detail_tableList();
+
+                            //結果を1行ずつ処理
+                            while (reader.Read())
+                            {
+                                //オブジェクトに結果を格納
+                                resultList.List.Add(new subsc_detail_tableRow 
+                                { order_id = reader.GetInt32("order_id"), 
+                                    user_id = reader.GetInt32("user_id"), 
+                                    product_size = reader.GetString("product_size"), 
+                                    quantity = reader.GetInt32("quantity"), 
+                                    product_id = reader.GetInt32("product_id") });
+                            }
+                            //JSONオブジェクトを文字列に変換
+                            responseMessage = JsonConvert.SerializeObject(resultList);
+                        }
+                    }
+                }
+            }
+            //DB操作でエラーが発生した場合はここでキャッチ
+            catch (SqlException e)
+            {
+                //エラーをコンソールに出力
+                Console.WriteLine(e.ToString());
+            }
+            //結果文字列を返却
+            return new OkObjectResult(responseMessage);
+        }
 
 
-        //商品カートテーブル（検索）
 
+        [FunctionName("INSERT")]
+        public static async Task<IActionResult> RunInsert(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed an INSERT request.");
 
-        
+            // HTTPレスポンスで返す文字列を定義
+            string responseMessage = "INSERT RESULT:";
+
+            // インサート用のパラメーター取得（GETメソッド用）
+            string user_name = req.Query["user_name"];
+            string user_pass = req.Query["user_pass"];
+            string user_mail = req.Query["user_mail"];
+            string user_postcode = req.Query["user_postcode"];
+            string user_adress = req.Query["user_adress"];
+            string user_telenum = req.Query["user_telenum"];
+
+            // インサート用のパラメーター取得（POSTメソッド用）
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            user_name = user_name ?? data?.user_name;
+            user_pass = user_pass ?? data?.user_pass;
+            user_mail = user_mail ?? data?.user_mail;
+            user_postcode = user_postcode ?? data?.user_postcode;
+            user_adress = user_adress ?? data?.user_adress;
+            user_telenum = user_telenum ?? data?.user_telenum;
+
+            // 全てのパラメーターが揃っている場合のみ処理
+            if (!string.IsNullOrWhiteSpace(user_name) &&
+                !string.IsNullOrWhiteSpace(user_pass) &&
+                !string.IsNullOrWhiteSpace(user_mail) &&
+                !string.IsNullOrWhiteSpace(user_postcode) &&
+                !string.IsNullOrWhiteSpace(user_adress) &&
+                !string.IsNullOrWhiteSpace(user_telenum))
+            {
+                try
+                {
+                    // DB接続設定（接続文字列の構築）
+                    SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                    builder.DataSource = "m3hminagawafunction.database.windows.net";
+                    builder.UserID = "sqladmin";
+                    builder.Password = "Ynm004063";
+                    builder.InitialCatalog = "m3h-minagawa-fanctionDB";
+
+                    // SQLコネクションを初期化
+                    using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                    {
+                        // 実行するSQL（パラメーター付き）
+                        String sql = "INSERT INTO subsc_user_table(user_name, user_pass, user_mail, user_postcode, user_adress, user_telenum) " +
+                                     "VALUES(@user_name, @user_pass, @user_mail, @user_postcode, @user_adress, @user_telenum)";
+
+                        // SQLコマンドを初期化
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            // パラメーターを設定
+                            command.Parameters.AddWithValue("@user_name", user_name);
+                            command.Parameters.AddWithValue("@user_pass", user_pass);
+                            command.Parameters.AddWithValue("@user_mail", user_mail);
+                            command.Parameters.AddWithValue("@user_postcode", user_postcode);
+                            command.Parameters.AddWithValue("@user_adress", user_adress);
+                            command.Parameters.AddWithValue("@user_telenum", user_telenum);
+
+                            // コネクションオープン（＝SQLDatabaseに接続）
+                            connection.Open();
+
+                            // SQLコマンドを実行し、挿入結果の行数を取得
+                            int result = command.ExecuteNonQuery();
+
+                            // レスポンス用にJSONオブジェクトに格納
+                            JObject jsonObj = new JObject { ["result"] = $"{result} 行挿入されました" };
+
+                            // JSONオブジェクトを文字列に変換
+                            responseMessage = JsonConvert.SerializeObject(jsonObj, Formatting.None);
+                        }
+                    }
+                }
+                // DB処理でエラーが発生した場合
+                catch (SqlException e)
+                {
+                    // コンソールにエラーを出力
+                    Console.WriteLine(e.ToString());
+                }
+            }
+            else
+            {
+                responseMessage = "パラメーターが設定されていません";
+            }
+
+            // HTTPレスポンスを返却
+            return new OkObjectResult(responseMessage);
+        }
+
 
         //商品INSERT
         [FunctionName("INSERT1")]
