@@ -69,13 +69,13 @@ namespace FunctionAPIApp
         public string user_mail { get; set; }
 
         [JsonProperty("user_postcode")]
-        public int user_postcode { get; set; }
+        public string user_postcode { get; set; }
 
         [JsonProperty("user_adress")]
         public string user_adress { get; set; }
 
         [JsonProperty("user_telenum")]
-        public int user_telenum { get; set; }
+        public string user_telenum { get; set; }
 
     }
 
@@ -118,7 +118,7 @@ namespace FunctionAPIApp
 
         [JsonProperty("product_id")]
         public int product_id { get; set; }
-        
+
         [JsonProperty("user_id")]
         public int user_id { get; set; }
 
@@ -135,6 +135,18 @@ namespace FunctionAPIApp
 
         [JsonProperty("order_id")]
         public int order_id { get; set; }
+
+        [JsonProperty("product_id")]
+        public int product_id { get; set; }
+
+        [JsonProperty("user_id")]
+        public int user_id { get; set; }
+
+        [JsonProperty("product_size")]
+        public string product_size { get; set; }
+
+        [JsonProperty("quantity")]
+        public int quantity { get; set; }
 
     }
 
