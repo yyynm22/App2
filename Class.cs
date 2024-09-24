@@ -133,6 +133,10 @@ namespace FunctionAPIApp
     public class subsc_detail_tableRow
     {
 
+
+        [JsonProperty("detail_id")]
+        public int detail_id { get; set; }
+
         [JsonProperty("order_id")]
         public int order_id { get; set; }
 
