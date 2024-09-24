@@ -580,7 +580,7 @@ namespace FunctionAPIApp
                     Console.WriteLine("=========================================\n");
 
                     //実行するクエリ
-                    String sql = "SELECT order_id, user_id, product_size, quantity, product_id FROM subsc_detail_table quantity ";
+                    String sql = "SELECT order_id, detail_id, user_id, product_size, quantity, product_id FROM subsc_detail_table quantity ";
 
                     //SQL実行オブジェクトの初期化
                     using (SqlCommand command = new SqlCommand(sql, connection))
@@ -601,6 +601,7 @@ namespace FunctionAPIApp
                                 resultList.List.Add(new subsc_detail_tableRow
                                 {
                                     order_id = reader.GetInt32("order_id"),
+                                    detail_id = reader.GetInt32("detail_id"),
                                     user_id = reader.GetInt32("user_id"),
                                     product_size = reader.GetString("product_size"),
                                     quantity = reader.GetInt32("quantity"),
