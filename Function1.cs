@@ -10,6 +10,7 @@ using Microsoft.Data.SqlClient;//DB接続用ライブラリ
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Data;
+using System.ComponentModel.Design;
 
 namespace FunctionAPIApp
 {
@@ -1320,6 +1321,68 @@ namespace FunctionAPIApp
             //HTTPレスポンスを返却
             return new OkObjectResult(responseMessage);
         }
+
+        [FunctionName("UpdateComment")]
+        public static async Task<IActionResult> RunUpdateComment(
+    [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+    ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request to update a comment.");
+
+            string responseMessage = "UPDATE COMMENT RESULT:";
+
+            // リクエストボディを読み込む
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            subsc_detail_tableRow data = JsonConvert.DeserializeObject<subsc_detail_tableRow>(requestBody);
+
+            if (data?.detail_id == 0)
+            {
+                return new BadRequestObjectResult("詳細IDが設定されていません。");
+            }
+
+            try
+            {
+                //DB接続設定（接続文字列の構築）
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "m3hminagawafunction.database.windows.net";
+                builder.UserID = "sqladmin";
+                builder.Password = "Ynm004063";
+                builder.InitialCatalog = "m3h-minagawa-fanctionDB";
+
+
+
+                using (var connection = new SqlConnection(builder.ConnectionString))
+                {
+                    const string sql = @"UPDATE subsc_detail_table SET checked = @checked WHERE id = @detail_id";
+
+                    using (var command = new SqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@detail_id", data.detail_id);
+                        command.Parameters.AddWithValue("@checked", data.isChecked);
+
+                        connection.Open();
+                        int result = command.ExecuteNonQuery();
+                        JObject jsonObj = new JObject { ["result"] = $"{result} 行更新されました" };
+
+                        responseMessage = JsonConvert.SerializeObject(jsonObj, Formatting.None);
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+                responseMessage = "エラーが発生しました: " + e.Message;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                responseMessage = "予期しないエラーが発生しました: " + ex.Message;
+            }
+
+            return new OkObjectResult(responseMessage);
+        }
+
+
 
     }
 }
