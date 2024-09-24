@@ -1324,18 +1324,18 @@ namespace FunctionAPIApp
 
         [FunctionName("Update")]
         public static async Task<IActionResult> RunUpdate(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
-        ILogger log)
+    [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+    ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request to update a subscription detail.");
 
             string responseMessage = "UPDATE RESULT:";
 
-            // Read the request body
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            subsc_detail_tableRow data = JsonConvert.DeserializeObject<subsc_detail_tableRow>(requestBody);
+            // Get query parameters
+            string detailIdStr = req.Query["detail_id"];
+            string checkedStr = req.Query["checked"];
 
-            if (data != null && data.detail_id > 0)
+            if (int.TryParse(detailIdStr, out int detailId) && bool.TryParse(checkedStr, out bool isChecked))
             {
                 try
                 {
@@ -1347,12 +1347,12 @@ namespace FunctionAPIApp
 
                     using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                     {
-                        String sql = @"UPDATE subsc_detail_table SET checked = @checked WHERE detail_id = @detail_id";
+                        string sql = @"UPDATE subsc_detail_table SET checked = @checked WHERE detail_id = @detail_id";
 
                         using (SqlCommand command = new SqlCommand(sql, connection))
                         {
-                            command.Parameters.AddWithValue("@detail_id", data.detail_id);
-                            command.Parameters.AddWithValue("@checked", data.isChecked);
+                            command.Parameters.AddWithValue("@detail_id", detailId);
+                            command.Parameters.AddWithValue("@checked", isChecked);
 
                             connection.Open();
                             int result = command.ExecuteNonQuery();
@@ -1370,11 +1370,12 @@ namespace FunctionAPIApp
             }
             else
             {
-                responseMessage = "Detail ID must be provided and greater than 0.";
+                responseMessage = "パラメーターが設定されていません";
             }
 
             return new OkObjectResult(responseMessage);
         }
+
 
 
 
