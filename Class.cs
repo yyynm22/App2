@@ -152,6 +152,9 @@ namespace FunctionAPIApp
         [JsonProperty("quantity")]
         public int quantity { get; set; }
 
+        [JsonProperty("checked")]
+        public bool isChecked { get; set; }
+
     }
 
 
