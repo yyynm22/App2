@@ -1322,61 +1322,55 @@ namespace FunctionAPIApp
             return new OkObjectResult(responseMessage);
         }
 
-        [FunctionName("UpdateComment")]
-        public static async Task<IActionResult> RunUpdateComment(
-    [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
-    ILogger log)
+        [FunctionName("Update")]
+        public static async Task<IActionResult> RunUpdate(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+        ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request to update a comment.");
+            log.LogInformation("C# HTTP trigger function processed a request to update a subscription detail.");
 
-            string responseMessage = "UPDATE COMMENT RESULT:";
+            string responseMessage = "UPDATE RESULT:";
 
-            // リクエストボディを読み込む
+            // Read the request body
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             subsc_detail_tableRow data = JsonConvert.DeserializeObject<subsc_detail_tableRow>(requestBody);
 
-            if (data?.detail_id == 0)
+            if (data != null && data.detail_id > 0)
             {
-                return new BadRequestObjectResult("詳細IDが設定されていません。");
-            }
-
-            try
-            {
-                //DB接続設定（接続文字列の構築）
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "m3hminagawafunction.database.windows.net";
-                builder.UserID = "sqladmin";
-                builder.Password = "Ynm004063";
-                builder.InitialCatalog = "m3h-minagawa-fanctionDB";
-
-
-
-                using (var connection = new SqlConnection(builder.ConnectionString))
+                try
                 {
-                    const string sql = @"UPDATE subsc_detail_table SET checked = @checked WHERE id = @detail_id";
+                    SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                    builder.DataSource = "m3hminagawafunction.database.windows.net";
+                    builder.UserID = "sqladmin";
+                    builder.Password = "Ynm004063";
+                    builder.InitialCatalog = "m3h-minagawa-fanctionDB";
 
-                    using (var command = new SqlCommand(sql, connection))
+                    using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                     {
-                        command.Parameters.AddWithValue("@detail_id", data.detail_id);
-                        command.Parameters.AddWithValue("@checked", data.isChecked);
+                        String sql = @"UPDATE subsc_detail_table SET checked = @checked WHERE detail_id = @detail_id";
 
-                        connection.Open();
-                        int result = command.ExecuteNonQuery();
-                        JObject jsonObj = new JObject { ["result"] = $"{result} 行更新されました" };
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@detail_id", data.detail_id);
+                            command.Parameters.AddWithValue("@checked", data.isChecked);
 
-                        responseMessage = JsonConvert.SerializeObject(jsonObj, Formatting.None);
+                            connection.Open();
+                            int result = command.ExecuteNonQuery();
+                            JObject jsonObj = new JObject { ["result"] = $"{result} rows updated." };
+
+                            responseMessage = JsonConvert.SerializeObject(jsonObj, Formatting.None);
+                        }
                     }
                 }
+                catch (SqlException e)
+                {
+                    log.LogError(e, "SQL Exception occurred while updating.");
+                    responseMessage = "An error occurred: " + e.Message;
+                }
             }
-            catch (SqlException e)
+            else
             {
-                Console.WriteLine(e.ToString());
-                responseMessage = "エラーが発生しました: " + e.Message;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                responseMessage = "予期しないエラーが発生しました: " + ex.Message;
+                responseMessage = "Detail ID must be provided and greater than 0.";
             }
 
             return new OkObjectResult(responseMessage);
