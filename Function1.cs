@@ -581,7 +581,9 @@ namespace FunctionAPIApp
                     Console.WriteLine("=========================================\n");
 
                     //実行するクエリ
-                    String sql = "SELECT order_id, detail_id, user_id, product_size, quantity, product_id FROM subsc_detail_table quantity ";
+                    String sql = "SELECT order_id, detail_id, user_id, product_size, quantity, product_id, [checked] FROM subsc_detail_table";
+
+
 
                     //SQL実行オブジェクトの初期化
                     using (SqlCommand command = new SqlCommand(sql, connection))
@@ -606,7 +608,8 @@ namespace FunctionAPIApp
                                     user_id = reader.GetInt32("user_id"),
                                     product_size = reader.GetString("product_size"),
                                     quantity = reader.GetInt32("quantity"),
-                                    product_id = reader.GetInt32("product_id")
+                                    product_id = reader.GetInt32("product_id"),
+                                    isChecked = reader.GetBoolean("checked"),
                                 });
                             }
                             //JSONオブジェクトを文字列に変換
